@@ -7,6 +7,7 @@ import android.view.ViewGroup
 
 import com.whf.openeyes.R
 import com.whf.openeyes.base.MvpFragment
+import com.whf.openeyes.module.home.classify.discover.DiscoverFragment
 import com.whf.openeyes.module.mine.MineFragment
 import com.whf.openeyes.module.notify.NotifyFragment
 import com.whf.openeyes.module.publish.PublishFragment
@@ -21,19 +22,17 @@ import kotlinx.android.synthetic.main.fragment_home.*
 class HomeFragment : MvpFragment<HomeView, HomeModel, HomePresenter>() {
 
     private var titleArray = arrayOf(
-            "生活", "广告", "动画", "搞笑", "开胃", "创意",
-            "音乐", "萌宠", "剧情", "科技", "运动", "旅行",
-            "影视", "记录", "游戏", "综艺", "时尚"
+            "发现", "生活", "广告", "动画", "搞笑", "开胃",
+            "创意", "音乐", "萌宠", "剧情", "科技", "运动",
+            "旅行", "影视", "记录", "游戏", "综艺", "时尚"
     )
 
     private var fragmentArray = arrayOf(
-           PublishFragment(), MineFragment(),SubscribeFragment(),NotifyFragment(),
-           PublishFragment(), MineFragment(),SubscribeFragment(),NotifyFragment(),
-           PublishFragment(), MineFragment(),SubscribeFragment(),NotifyFragment(),
-           PublishFragment(), MineFragment(),SubscribeFragment(),NotifyFragment(),
-           PublishFragment(), MineFragment(),SubscribeFragment(),NotifyFragment(),
-           PublishFragment(), MineFragment(),SubscribeFragment(),NotifyFragment(),
-           PublishFragment()
+            DiscoverFragment(), PublishFragment(), MineFragment(), SubscribeFragment(),
+            NotifyFragment(), PublishFragment(), MineFragment(), SubscribeFragment(),
+            NotifyFragment(), PublishFragment(), MineFragment(), SubscribeFragment(),
+            NotifyFragment(), PublishFragment(), MineFragment(), SubscribeFragment(),
+            NotifyFragment(), PublishFragment()
     )
 
     override fun createPresenter(): HomePresenter {
@@ -53,13 +52,7 @@ class HomeFragment : MvpFragment<HomeView, HomeModel, HomePresenter>() {
         }
 
         val fragmentManager = activity!!.supportFragmentManager
-        vp_content.adapter = HomePageAdapter(fragmentManager,titleArray,fragmentArray)
-
-        titleArray.forEach {
-            val tab = tab_top.newTab()
-            tab.text = it
-            tab_top.addTab(tab)
-        }
+        vp_content.adapter = HomePageAdapter(fragmentManager, titleArray, fragmentArray)
         tab_top.setupWithViewPager(vp_content)
     }
 

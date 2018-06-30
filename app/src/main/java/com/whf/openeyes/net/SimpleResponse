@@ -1,0 +1,24 @@
+
+//api/v4/discover
+{
+	"tabInfo": {
+		"tabList": [{
+			"id": 0,
+			"name": "热门",
+			"apiUrl": "http://baobab.kaiyanapp.com/api/v4/discovery/hot"
+		}, {
+			"id": 1,
+			"name": "分类",
+			"apiUrl": "http://baobab.kaiyanapp.com/api/v4/discovery/category"
+		}, {
+			"id": 2,
+			"name": "作者",
+			"apiUrl": "http://baobab.kaiyanapp.com/api/v4/pgcs/all"
+		}],
+		"defaultIdx": 0
+	}
+}
+
+
+
+

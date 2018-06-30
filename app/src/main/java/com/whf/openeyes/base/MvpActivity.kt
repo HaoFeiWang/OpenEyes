@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity
 /**
  * Created by whf on 2018/6/28.
  */
-open abstract class MvpActivity<V:IView,M:IModel,P:MvpPresenter<V,M> >: AppCompatActivity(),IView{
+open abstract class MvpActivity<V:IView,M:IModel,P:MvpPresenter<V,M> >: BaseActivity(),IView{
 
     protected val mPresenter:P by lazy { createPresenter() }
 

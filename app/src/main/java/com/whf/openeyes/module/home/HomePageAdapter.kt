@@ -14,16 +14,13 @@ class HomePageAdapter(fragmentManager: FragmentManager,
 
 
     override fun getCount(): Int {
-        return titleArray.size
+        return fragmentArray.size
     }
 
     override fun getItem(position: Int): Fragment {
         return fragmentArray[position]
     }
 
-    override fun isViewFromObject(view: View, objectView: Any): Boolean {
-        return objectView == view
-    }
 
     override fun getPageTitle(position: Int): CharSequence? {
         return titleArray[position]

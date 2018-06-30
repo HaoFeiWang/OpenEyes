@@ -7,7 +7,7 @@ import com.whf.openeyes.base.MvpPresenter
  */
 class SubscribePresenter:MvpPresenter<SubscribeView,SubscribeModel>(){
 
-    override fun createModule(): SubscribeModel? {
+    override fun createModule(): SubscribeModel{
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

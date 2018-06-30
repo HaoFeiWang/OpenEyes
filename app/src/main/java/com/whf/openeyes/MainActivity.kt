@@ -1,9 +1,9 @@
 package com.whf.openeyes
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.FragmentTransaction
 import android.view.View
+import com.whf.openeyes.base.BaseActivity
 import com.whf.openeyes.module.home.HomeFragment
 import com.whf.openeyes.module.mine.MineFragment
 import com.whf.openeyes.module.notify.NotifyFragment
@@ -11,7 +11,7 @@ import com.whf.openeyes.module.publish.PublishFragment
 import com.whf.openeyes.module.subscribe.SubscribeFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+class MainActivity : BaseActivity(), View.OnClickListener {
 
     private var mHomeFragment: HomeFragment? = null
     private var mSubscribeFragment: SubscribeFragment? = null
@@ -79,10 +79,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun hideAllFragment(fragmentTransaction: FragmentTransaction) {
-        mHomeFragment?.let { fragmentTransaction.hide(it) }
-        mSubscribeFragment?.let { fragmentTransaction.hide(it) }
-        mPublishFragment?.let { fragmentTransaction.hide(it) }
-        mNotifyFragment?.let { fragmentTransaction.hide(it) }
-        mMineFragment?.let { fragmentTransaction.hide(it) }
+//        mHomeFragment?.let { fragmentTransaction.hide(it) }
+//        mSubscribeFragment?.let { fragmentTransaction.hide(it) }
+//        mPublishFragment?.let { fragmentTransaction.hide(it) }
+//        mNotifyFragment?.let { fragmentTransaction.hide(it) }
+//        mMineFragment?.let { fragmentTransaction.hide(it) }
     }
 }

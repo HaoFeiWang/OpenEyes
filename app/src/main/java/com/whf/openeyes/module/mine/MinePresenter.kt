@@ -7,7 +7,7 @@ import com.whf.openeyes.base.MvpPresenter
  */
 class MinePresenter : MvpPresenter<MineView, MineModel>() {
 
-    override fun createModule(): MineModel? {
+    override fun createModule(): MineModel {
         return MineModel()
     }
 

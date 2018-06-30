@@ -7,7 +7,7 @@ import com.whf.openeyes.base.MvpPresenter
  */
 class HomePresenter : MvpPresenter<HomeView, HomeModel>() {
 
-    override fun createModule(): HomeModel? {
+    override fun createModule(): HomeModel {
         return HomeModel()
     }
 
