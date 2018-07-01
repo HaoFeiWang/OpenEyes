@@ -9,7 +9,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
  */
 class DiscoverPresenter : MvpPresenter<DiscoverView, DiscoverModel>() {
 
-
     override fun createModule(): DiscoverModel {
         return DiscoverModel()
     }

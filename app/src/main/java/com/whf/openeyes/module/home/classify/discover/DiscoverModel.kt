@@ -11,7 +11,7 @@ import io.reactivex.schedulers.Schedulers
 class DiscoverModel:IModel{
 
     fun loadData():Observable<Any> {
-        return HttpClient.server.getDiscover()
+        return HttpClient.server.getHot()
                 .subscribeOn(Schedulers.io())
     }
 
