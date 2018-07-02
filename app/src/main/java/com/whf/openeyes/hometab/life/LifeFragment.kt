@@ -1,4 +1,4 @@
-package com.whf.openeyes.module.home.classify.life
+package com.whf.openeyes.hometab.life
 
 
 import android.os.Bundle

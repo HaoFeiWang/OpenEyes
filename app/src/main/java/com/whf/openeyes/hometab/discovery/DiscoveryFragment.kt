@@ -1,4 +1,4 @@
-package com.whf.openeyes.module.home.classify.discover
+package com.whf.openeyes.hometab.discovery
 
 
 import android.os.Bundle
@@ -9,25 +9,34 @@ import android.view.ViewGroup
 
 import com.whf.openeyes.R
 import com.whf.openeyes.base.MvpFragment
+import com.whf.openeyes.net.bean.Discovery
 
 
 /**
  * A simple [Fragment] subclass.
  */
-class DiscoverFragment : MvpFragment<DiscoverView,DiscoverModel,DiscoverPresenter>() {
+class DiscoveryFragment :
+        MvpFragment<DiscoveryView, DiscoveryModel, DiscoveryPresenter>(),
+        DiscoveryView {
 
+    lateinit var viewParent: View
 
-    override fun createPresenter(): DiscoverPresenter {
-        return DiscoverPresenter()
+    override fun createPresenter(): DiscoveryPresenter {
+        return DiscoveryPresenter()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_discover, container, false)
+        viewParent = inflater.inflate(R.layout.fragment_discover, container, false)
+        return viewParent
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
         mPresenter.loadData()
     }
 
+    override fun updateDiscoveryData(discoveryData: Discovery) {
+
+    }
 }

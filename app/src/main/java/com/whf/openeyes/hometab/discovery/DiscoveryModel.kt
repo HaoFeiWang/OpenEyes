@@ -1,17 +1,18 @@
-package com.whf.openeyes.module.home.classify.discover
+package com.whf.openeyes.hometab.discovery
 
 import com.whf.openeyes.base.IModel
 import com.whf.openeyes.net.HttpClient
+import com.whf.openeyes.net.bean.Discovery
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by whf on 2018/6/30.
  */
-class DiscoverModel:IModel{
+class DiscoveryModel:IModel{
 
-    fun loadData():Observable<Any> {
-        return HttpClient.server.getHot()
+    fun loadData():Observable<Discovery> {
+        return HttpClient.server.getDiscover()
                 .subscribeOn(Schedulers.io())
     }
 

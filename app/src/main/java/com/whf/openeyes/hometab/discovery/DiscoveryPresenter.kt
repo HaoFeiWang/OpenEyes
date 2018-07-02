@@ -1,4 +1,4 @@
-package com.whf.openeyes.module.home.classify.discover
+package com.whf.openeyes.hometab.discovery
 
 import android.util.Log
 import com.whf.openeyes.base.MvpPresenter
@@ -7,10 +7,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 /**
  * Created by whf on 2018/6/30.
  */
-class DiscoverPresenter : MvpPresenter<DiscoverView, DiscoverModel>() {
+class DiscoveryPresenter : MvpPresenter<DiscoveryView, DiscoveryModel>() {
 
-    override fun createModule(): DiscoverModel {
-        return DiscoverModel()
+    override fun createModule(): DiscoveryModel {
+        return DiscoveryModel()
     }
 
     fun loadData() {
@@ -18,8 +18,10 @@ class DiscoverPresenter : MvpPresenter<DiscoverView, DiscoverModel>() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     Log.d(TAG,"get net response success $it")
+                    mView?.updateDiscoveryData(it)
                 }, {
                     Log.d(TAG,"get net response error $it")
+
                 })
 
     }

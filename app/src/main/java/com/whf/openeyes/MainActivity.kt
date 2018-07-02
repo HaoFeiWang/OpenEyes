@@ -79,10 +79,10 @@ class MainActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun hideAllFragment(fragmentTransaction: FragmentTransaction) {
-//        mHomeFragment?.let { fragmentTransaction.hide(it) }
-//        mSubscribeFragment?.let { fragmentTransaction.hide(it) }
-//        mPublishFragment?.let { fragmentTransaction.hide(it) }
-//        mNotifyFragment?.let { fragmentTransaction.hide(it) }
-//        mMineFragment?.let { fragmentTransaction.hide(it) }
+        mHomeFragment?.let { fragmentTransaction.hide(it) }
+        mSubscribeFragment?.let { fragmentTransaction.hide(it) }
+        mPublishFragment?.let { fragmentTransaction.hide(it) }
+        mNotifyFragment?.let { fragmentTransaction.hide(it) }
+        mMineFragment?.let { fragmentTransaction.hide(it) }
     }
 }

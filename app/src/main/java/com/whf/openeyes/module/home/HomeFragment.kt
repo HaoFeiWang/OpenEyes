@@ -7,7 +7,7 @@ import android.view.ViewGroup
 
 import com.whf.openeyes.R
 import com.whf.openeyes.base.MvpFragment
-import com.whf.openeyes.module.home.classify.discover.DiscoverFragment
+import com.whf.openeyes.hometab.discovery.DiscoveryFragment
 import com.whf.openeyes.module.mine.MineFragment
 import com.whf.openeyes.module.notify.NotifyFragment
 import com.whf.openeyes.module.publish.PublishFragment
@@ -28,7 +28,7 @@ class HomeFragment : MvpFragment<HomeView, HomeModel, HomePresenter>() {
     )
 
     private var fragmentArray = arrayOf(
-            DiscoverFragment(), PublishFragment(), MineFragment(), SubscribeFragment(),
+            DiscoveryFragment(), PublishFragment(), MineFragment(), SubscribeFragment(),
             NotifyFragment(), PublishFragment(), MineFragment(), SubscribeFragment(),
             NotifyFragment(), PublishFragment(), MineFragment(), SubscribeFragment(),
             NotifyFragment(), PublishFragment(), MineFragment(), SubscribeFragment(),

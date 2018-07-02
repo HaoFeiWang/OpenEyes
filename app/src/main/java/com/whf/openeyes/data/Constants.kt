@@ -9,6 +9,8 @@ val LOG_TAG = "OpenEyes_Log"
 
 object DataType{
     const val HORIZONTAL_SCROLL_CARD = "HorizontalScrollCard"
+
+
     const val BANNER = "Banner"
     const val TEXT_HEADER = "TextHeader"
     const val VIDEO_BEAN_FOR_CLIENT = "VideoBeanForClient"
@@ -19,6 +21,8 @@ object DataType{
 
 object Type{
     const val HORIZONTAL_SCROLL_CARD = "horizontalScrollCard"
+
+
     const val SQUARE_CARD_COLLECTION = "squareCardCollection"
     const val TEXT_HEADER = "textHeader"
     const val VIDEO = "video"
