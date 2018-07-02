@@ -3,6 +3,8 @@ package com.whf.openeyes.hometab.discovery
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +21,7 @@ class DiscoveryFragment :
         MvpFragment<DiscoveryView, DiscoveryModel, DiscoveryPresenter>(),
         DiscoveryView {
 
-    lateinit var viewParent: View
+    lateinit var recyclerView: RecyclerView
 
     override fun createPresenter(): DiscoveryPresenter {
         return DiscoveryPresenter()
@@ -27,16 +29,19 @@ class DiscoveryFragment :
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        viewParent = inflater.inflate(R.layout.fragment_discover, container, false)
+        val viewParent = inflater.inflate(R.layout.fragment_discover, container, false)
+        recyclerView = viewParent.findViewById(R.id.rv_discovery_content)
+        recyclerView.layoutManager = LinearLayoutManager(context!!,LinearLayoutManager.VERTICAL,false)
         return viewParent
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         mPresenter.loadData()
     }
 
     override fun updateDiscoveryData(discoveryData: Discovery) {
+        recyclerView.adapter?.let {
 
+        }?:DiscoveryAdapter(discoveryData.itemList,context!!)
     }
 }

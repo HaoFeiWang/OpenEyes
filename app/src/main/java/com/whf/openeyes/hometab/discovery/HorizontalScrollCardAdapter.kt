@@ -3,12 +3,15 @@ package com.whf.openeyes.hometab.discovery
 import android.content.Context
 import android.media.Image
 import android.support.v4.view.PagerAdapter
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.whf.openeyes.data.LOG_TAG
 import com.whf.openeyes.net.bean.Discovery
+import java.time.temporal.TemporalAccessor
 
 /**
  * Created by whf on 2018/7/2.
@@ -16,6 +19,7 @@ import com.whf.openeyes.net.bean.Discovery
 class HorizontalScrollCardAdapter(val context: Context,
                                   var cardList: List<Discovery.DataItem>) : PagerAdapter() {
 
+    val TAG = LOG_TAG+HorizontalScrollCardAdapter::class.java.simpleName
     val itemViewArray = ArrayList<ImageView>()
 
     override fun isViewFromObject(view: View, objectView: Any): Boolean {
@@ -23,6 +27,7 @@ class HorizontalScrollCardAdapter(val context: Context,
     }
 
     override fun getCount(): Int {
+        Log.d(TAG, "card data = $cardList")
         return cardList.size
     }
 

@@ -2,9 +2,11 @@ package com.whf.openeyes.hometab.discovery
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.whf.openeyes.R
+import com.whf.openeyes.data.LOG_TAG
 import com.whf.openeyes.data.Type
 import com.whf.openeyes.net.bean.Discovery
 
@@ -14,6 +16,7 @@ import com.whf.openeyes.net.bean.Discovery
 class DiscoveryAdapter(var discoveryList: List<Discovery.DiscoveryItem>,
                        private val context: Context) : RecyclerView.Adapter<DiscoveryHolder>() {
 
+    val TAG = LOG_TAG+DiscoveryAdapter::class.java.simpleName
     val layoutInflater = LayoutInflater.from(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiscoveryHolder {
@@ -32,6 +35,7 @@ class DiscoveryAdapter(var discoveryList: List<Discovery.DiscoveryItem>,
     override fun onBindViewHolder(holder: DiscoveryHolder, position: Int) {
 
         val curItem = discoveryList[position]
+        Log.d(TAG, "cur item = $curItem")
 
         when(holder){
             is DiscoveryHolder -> holder.horizontalScrollCard?.adapter?.let {
