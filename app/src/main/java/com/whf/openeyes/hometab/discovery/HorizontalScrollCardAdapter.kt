@@ -44,7 +44,10 @@ class HorizontalScrollCardAdapter(val context: Context,
 
         val imageView = itemViewArray[position]
         container.addView(imageView)
-        Glide.with(imageView).load(cardList[position].data.image).into(imageView)
+
+        Glide.with(context)
+                .load(cardList[position].data.image)
+                .into(imageView)
 
         return imageView
     }

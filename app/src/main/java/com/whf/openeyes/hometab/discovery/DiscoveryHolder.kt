@@ -9,5 +9,5 @@ import com.whf.openeyes.R
  * Created by whf on 2018/7/2.
  */
 class DiscoveryHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val horizontalScrollCard: ViewPager? = itemView.findViewById(R.id.vp_horizontal_scroll_card)
+    val horizontalScrollCard = itemView.findViewById(R.id.vp_horizontal_scroll_card) as ViewPager
 }
