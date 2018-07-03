@@ -21,7 +21,6 @@ class DiscoveryPresenter : MvpPresenter<DiscoveryView, DiscoveryModel>() {
                     mView?.updateDiscoveryData(it)
                 }, {
                     Log.d(TAG,"get net response error $it")
-
                 })
 
     }

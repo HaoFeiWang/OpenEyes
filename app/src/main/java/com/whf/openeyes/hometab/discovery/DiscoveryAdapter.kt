@@ -38,10 +38,13 @@ class DiscoveryAdapter(var discoveryList: List<Discovery.DiscoveryItem>,
         Log.d(TAG, "cur item = $curItem")
 
         when(holder){
-            is DiscoveryHolder -> holder.horizontalScrollCard?.adapter?.let {
-                it as HorizontalScrollCardAdapter
-                it.updateCardList(curItem.data.itemList)
-            }?: HorizontalScrollCardAdapter(context,curItem.data.itemList)
+            holder.horizontalScrollCard?.let {
+                it.adapter = HorizontalScrollCardAdapter(context,curItem.data.itemList)
+            }
+//            is DiscoveryHolder -> holder.horizontalScrollCard?.adapter?.let {
+//                it as HorizontalScrollCardAdapter
+//                it.updateCardList(curItem.data.itemList)
+//            }?: HorizontalScrollCardAdapter(context,curItem.data.itemList)
         }
     }
 
