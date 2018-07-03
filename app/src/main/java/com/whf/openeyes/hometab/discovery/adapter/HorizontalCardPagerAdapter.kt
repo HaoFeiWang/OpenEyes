@@ -1,26 +1,26 @@
-package com.whf.openeyes.hometab.discovery
+package com.whf.openeyes.hometab.discovery.adapter
 
 import android.content.Context
-import android.media.Image
 import android.support.v4.view.PagerAdapter
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.whf.openeyes.data.LOG_TAG
-import com.whf.openeyes.net.bean.Discovery
-import java.time.temporal.TemporalAccessor
+import com.whf.openeyes.net.bean.DataList
 
 /**
  * Created by whf on 2018/7/2.
  */
-class HorizontalScrollCardAdapter(val context: Context,
-                                  var cardList: List<Discovery.DataItem>) : PagerAdapter() {
+class HorizontalCardPagerAdapter(val context: Context,
+                                 var cardList: List<DataList.DataItem>) : PagerAdapter() {
 
-    val TAG = LOG_TAG+HorizontalScrollCardAdapter::class.java.simpleName
+    val TAG = LOG_TAG+ HorizontalCardPagerAdapter::class.java.simpleName
     val itemViewArray = ArrayList<ImageView>()
+    val glideRequestOption = RequestOptions()
+            .centerCrop()
 
     override fun isViewFromObject(view: View, objectView: Any): Boolean {
         return view === objectView
@@ -31,7 +31,7 @@ class HorizontalScrollCardAdapter(val context: Context,
         return cardList.size
     }
 
-    fun updateCardList(cardList: List<Discovery.DataItem>) {
+    fun updateCardList(cardList: List<DataList.DataItem>) {
         this.cardList = cardList
         notifyDataSetChanged()
     }
@@ -47,6 +47,7 @@ class HorizontalScrollCardAdapter(val context: Context,
 
         Glide.with(context)
                 .load(cardList[position].data.image)
+                .apply(glideRequestOption)
                 .into(imageView)
 
         return imageView

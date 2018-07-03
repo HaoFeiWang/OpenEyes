@@ -1,6 +1,6 @@
 package com.whf.openeyes.net
 
-import com.whf.openeyes.net.bean.Discovery
+import com.whf.openeyes.net.bean.DataList
 import io.reactivex.Observable
 import retrofit2.http.GET
 
@@ -11,7 +11,7 @@ import retrofit2.http.GET
 interface ApiServer {
 
     @GET("v5/index/tab/discovery")
-    fun getDiscover(): Observable<Discovery>
+    fun getDiscover(): Observable<DataList>
 
 
 

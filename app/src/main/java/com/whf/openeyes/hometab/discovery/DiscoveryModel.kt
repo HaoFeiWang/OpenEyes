@@ -2,7 +2,7 @@ package com.whf.openeyes.hometab.discovery
 
 import com.whf.openeyes.base.IModel
 import com.whf.openeyes.net.HttpClient
-import com.whf.openeyes.net.bean.Discovery
+import com.whf.openeyes.net.bean.DataList
 import io.reactivex.Observable
 import io.reactivex.schedulers.Schedulers
 
@@ -11,7 +11,7 @@ import io.reactivex.schedulers.Schedulers
  */
 class DiscoveryModel:IModel{
 
-    fun loadData():Observable<Discovery> {
+    fun loadData():Observable<DataList> {
         return HttpClient.server.getDiscover()
                 .subscribeOn(Schedulers.io())
     }

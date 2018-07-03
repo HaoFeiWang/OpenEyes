@@ -19,9 +19,10 @@ object DataType{
     const val ACTION_CARD = "ActionCard"
 }
 
-object Type{
+object ItemType{
     const val HORIZONTAL_SCROLL_CARD = "horizontalScrollCard"
-
+    const val TEXT_CARD = "textCard"
+    const val FOLLOW_CARD = "followCard"
 
     const val SQUARE_CARD_COLLECTION = "squareCardCollection"
     const val TEXT_HEADER = "textHeader"
