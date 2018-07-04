@@ -2,20 +2,19 @@ package com.whf.openeyes.hometab.discovery.adapter
 
 import android.content.Context
 import android.support.v4.view.PagerAdapter
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.whf.openeyes.data.LOG_TAG
-import com.whf.openeyes.net.bean.DataList
+import com.whf.openeyes.net.bean.HorizontalCardData
 
 /**
  * Created by whf on 2018/7/2.
  */
 class HorizontalCardPagerAdapter(val context: Context,
-                                 var cardList: List<DataList.DataItem>) : PagerAdapter() {
+                                 var cardList: List<HorizontalCardData.Item>) : PagerAdapter() {
 
     val TAG = LOG_TAG+ HorizontalCardPagerAdapter::class.java.simpleName
     val itemViewArray = ArrayList<ImageView>()
@@ -27,11 +26,10 @@ class HorizontalCardPagerAdapter(val context: Context,
     }
 
     override fun getCount(): Int {
-        Log.d(TAG, "card data = $cardList")
         return cardList.size
     }
 
-    fun updateCardList(cardList: List<DataList.DataItem>) {
+    fun updateCardList(cardList: List<HorizontalCardData.Item>) {
         this.cardList = cardList
         notifyDataSetChanged()
     }

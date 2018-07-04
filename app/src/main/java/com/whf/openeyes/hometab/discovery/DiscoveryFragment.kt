@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import com.whf.openeyes.R
 import com.whf.openeyes.base.MvpFragment
 import com.whf.openeyes.hometab.discovery.adapter.DiscoveryAdapter
+import com.whf.openeyes.net.bean.DataItem
 import com.whf.openeyes.net.bean.DataList
 
 
@@ -22,7 +23,7 @@ class DiscoveryFragment :
         MvpFragment<DiscoveryView, DiscoveryModel, DiscoveryPresenter>(),
         DiscoveryView {
 
-    lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerView: RecyclerView
 
     override fun createPresenter(): DiscoveryPresenter {
         return DiscoveryPresenter()
@@ -42,9 +43,10 @@ class DiscoveryFragment :
 
     override fun updateDiscoveryData(dataListReponseData: DataList) {
 
-        val dataListReponseList:ArrayList<DataList.DataItem> = ArrayList()
+        val dataListReponseList:ArrayList<DataItem> = ArrayList()
         dataListReponseList.add(dataListReponseData.itemList[0])
         dataListReponseList.add(dataListReponseData.itemList[1])
+        dataListReponseList.add(dataListReponseData.itemList[2])
 
         recyclerView.adapter = DiscoveryAdapter(dataListReponseList, context!!)
     }

@@ -100,8 +100,9 @@ class DiscoveryAdapter(var dataList: List<DataItem>,
 
     private fun createCurBean(curItem: DataItem): Any {
         when (curItem.type) {
-            ItemType.HORIZONTAL_SCROLL_CARD ->
+            ItemType.HORIZONTAL_SCROLL_CARD ->{
                 return Gson().fromJson(curItem.data, HorizontalCardData::class.java)
+            }
 
             ItemType.TEXT_CARD ->
                 return Gson().fromJson(curItem.data, TextCardData::class.java)

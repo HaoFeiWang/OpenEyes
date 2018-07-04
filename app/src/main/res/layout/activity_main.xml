@@ -8,13 +8,14 @@
     <RelativeLayout
         android:id="@+id/rl_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ll_tab"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="#bfbebe"
-        android:layout_above="@+id/ll_tab"/>
+        android:layout_above="@+id/ll_tab"
+        android:background="#bfbebe" />
 
     <LinearLayout
         android:id="@+id/ll_tab"
@@ -23,14 +24,16 @@
         android:layout_alignParentBottom="true"
         android:orientation="horizontal"
         android:paddingBottom="3dp"
+        android:background="#ffffff"
         android:paddingTop="5dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/rl_tab_home"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="20dp"
@@ -40,17 +43,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_marginTop="3dp"
                 android:text="首页"
                 android:textSize="10sp" />
-        </RelativeLayout>
+        </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/rl_tab_subscribe"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="20dp"
@@ -60,17 +64,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_marginTop="3dp"
                 android:text="首页"
                 android:textSize="10sp" />
-        </RelativeLayout>
+        </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/rl_tab_publish"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="20dp"
@@ -80,17 +85,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_marginTop="3dp"
                 android:text="首页"
                 android:textSize="10sp" />
-        </RelativeLayout>
+        </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/rl_tab_notify"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="20dp"
@@ -100,17 +106,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_marginTop="3dp"
                 android:text="首页"
                 android:textSize="10sp" />
-        </RelativeLayout>
+        </LinearLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/rl_tab_mine"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <ImageView
                 android:layout_width="20dp"
@@ -120,10 +127,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_marginTop="3dp"
+
                 android:text="首页"
                 android:textSize="10sp" />
-        </RelativeLayout>
+        </LinearLayout>
 
     </LinearLayout>
 
