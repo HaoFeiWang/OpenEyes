@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#eda6a6"
     android:paddingBottom="15dp">
 
     <LinearLayout
@@ -43,6 +42,8 @@
             android:id="@+id/view_footer_divider"
             android:layout_width="match_parent"
             android:layout_height="1px"
+            android:layout_marginStart="@dimen/common_padding_left"
+            android:layout_marginEnd="10dp"
             android:background="@color/divider" />
 
         <LinearLayout

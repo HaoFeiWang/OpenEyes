@@ -4,7 +4,6 @@
     android:layout_height="100dp"
     android:orientation="horizontal"
     android:paddingTop="15dp"
-    android:background="#ece8a2"
     android:paddingStart="@dimen/common_padding_left"
     android:paddingEnd="@dimen/common_padding_right">
 
