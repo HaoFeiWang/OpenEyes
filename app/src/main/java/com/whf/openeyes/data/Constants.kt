@@ -23,13 +23,20 @@ object ItemType{
     const val HORIZONTAL_SCROLL_CARD = "horizontalScrollCard"
     const val TEXT_CARD = "textCard"
     const val FOLLOW_CARD = "followCard"
+    const val VIDEO_SMALL_CARD = "videoSmallCard"
+    const val BANNER2 = "banner2"
+
 
     const val SQUARE_CARD_COLLECTION = "squareCardCollection"
     const val TEXT_HEADER = "textHeader"
     const val VIDEO = "video"
-    const val BANNER2 = "banner2"
     const val SQUARE_CARD = "squareCard"
     const val ACTION_CARD = "actionCard"
+}
+
+object TextCardType{
+    const val HEAD5 = "header5"
+    const val FOOTER2 = "footer2"
 }
 
 

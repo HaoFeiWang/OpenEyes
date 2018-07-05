@@ -47,6 +47,11 @@ class DiscoveryFragment :
         dataListReponseList.add(dataListReponseData.itemList[0])
         dataListReponseList.add(dataListReponseData.itemList[1])
         dataListReponseList.add(dataListReponseData.itemList[2])
+        dataListReponseList.add(dataListReponseData.itemList[3])
+        dataListReponseList.add(dataListReponseData.itemList[4])
+        dataListReponseList.add(dataListReponseData.itemList[5])
+        dataListReponseList.add(dataListReponseData.itemList[6])
+        dataListReponseList.add(dataListReponseData.itemList[7])
 
         recyclerView.adapter = DiscoveryAdapter(dataListReponseList, context!!)
     }

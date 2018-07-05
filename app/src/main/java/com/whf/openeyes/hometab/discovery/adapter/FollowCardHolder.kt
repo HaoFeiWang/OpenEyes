@@ -13,5 +13,5 @@ class FollowCardHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val ivContent = itemView.findViewById(R.id.iv_follow_content) as ImageView
     val tvHeadTitle = itemView.findViewById(R.id.tv_follow_head_title) as TextView
     val tvHeadClassify = itemView.findViewById(R.id.tv_follow_head_classify) as TextView
-    val ivHeadIcon = itemView.findViewById<ImageView>(R.id.iv_follow_head_icon)
+    val ivHeadIcon = itemView.findViewById(R.id.iv_follow_head_icon) as ImageView
 }
