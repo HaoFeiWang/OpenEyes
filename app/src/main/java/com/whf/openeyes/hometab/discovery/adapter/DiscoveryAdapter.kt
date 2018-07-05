@@ -58,9 +58,9 @@ class DiscoveryAdapter(private var dataList: List<DataItem>,
                         holder.layoutFooter.visibility = View.VISIBLE
                         holder.layoutHead.visibility = View.GONE
                         holder.tvFooterContent.text = curBean.text
-                        if (TextUtils.isEmpty(curBean.actionUrl)){
+                        if (TextUtils.isEmpty(curBean.actionUrl)) {
                             holder.ivFooterGo.visibility = View.GONE
-                        }else{
+                        } else {
                             holder.ivFooterGo.visibility = View.VISIBLE
                         }
                     }
@@ -69,9 +69,9 @@ class DiscoveryAdapter(private var dataList: List<DataItem>,
                         holder.layoutHead.visibility = View.VISIBLE
                         holder.layoutFooter.visibility = View.GONE
                         holder.tvHeadContent.text = curBean.text
-                        if (TextUtils.isEmpty(curBean.actionUrl)){
+                        if (TextUtils.isEmpty(curBean.actionUrl)) {
                             holder.ivHeadGo.visibility = View.GONE
-                        }else{
+                        } else {
                             holder.ivHeadGo.visibility = View.VISIBLE
                         }
                     }
@@ -98,6 +98,13 @@ class DiscoveryAdapter(private var dataList: List<DataItem>,
                 val curBean = Gson().fromJson(curItem.data, Banner2Data::class.java)
                 glideRequestManager.load(curBean.image).into(holder.ivContent)
             }
+
+            is BriefCardHolder -> {
+                val curBean = Gson().fromJson(curItem.data, BriefCardData::class.java)
+                glideRequestManager.load(curBean.icon).into(holder.ivContent)
+                holder.tvTitle.text = curBean.title
+                holder.tvDescription.text = curBean.description
+            }
         }
     }
 
@@ -113,6 +120,7 @@ class DiscoveryAdapter(private var dataList: List<DataItem>,
             ItemType.FOLLOW_CARD -> return 3
             ItemType.VIDEO_SMALL_CARD -> return 4
             ItemType.BANNER2 -> return 5
+            ItemType.BRIEF_CARD -> return 6
         }
         return 0
     }
@@ -137,6 +145,10 @@ class DiscoveryAdapter(private var dataList: List<DataItem>,
 
             5 -> return Banner2Holder(layoutInflater.inflate(
                     R.layout.item_banner2, parent, false
+            ))
+
+            6 -> return BriefCardHolder(layoutInflater.inflate(
+                    R.layout.item_brief_card, parent, false
             ))
         }
         return HorizontalCardHolder(layoutInflater.inflate(R.layout.item_horizontal_card, parent, false))

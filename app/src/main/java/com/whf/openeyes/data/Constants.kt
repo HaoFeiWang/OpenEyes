@@ -25,6 +25,7 @@ object ItemType{
     const val FOLLOW_CARD = "followCard"
     const val VIDEO_SMALL_CARD = "videoSmallCard"
     const val BANNER2 = "banner2"
+    const val BRIEF_CARD = "briefCard"
 
 
     const val SQUARE_CARD_COLLECTION = "squareCardCollection"
