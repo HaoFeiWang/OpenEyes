@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="15dp"
+    android:paddingEnd="@dimen/common_padding_right"
+    android:paddingStart="@dimen/common_padding_left">
+
+    <ImageView
+        android:id="@+id/iv_video_brief_head"
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
+
+    <TextView
+        android:id="@+id/tv_video_brief_follow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_video_brief_head"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_video_brief_head"
+        android:text="@string/add_follow"
+        android:background="#f4b1b1"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"/>
+
+    <TextView
+        android:id="@+id/tv_video_brief_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="2dp"
+        android:layout_marginStart="10dp"
+        android:textSize="16sp"
+        android:textColor="@color/head_title_text"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@id/iv_video_brief_head"
+        app:layout_constraintTop_toTopOf="@id/iv_video_brief_head" />
+
+    <TextView
+        android:id="@+id/tv_video_brief_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="2dp"
+        android:layout_marginStart="10dp"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@id/iv_video_brief_head"
+        app:layout_constraintLeft_toRightOf="@id/iv_video_brief_head" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_video_brief_content"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/iv_video_brief_head"/>
+
+</android.support.constraint.ConstraintLayout>

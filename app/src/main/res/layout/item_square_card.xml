@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingEnd="@dimen/common_padding_right"
+    android:paddingStart="@dimen/common_padding_left"
+    android:paddingTop="15dp">
+
+    <TextView
+        android:id="@+id/tv_square_card_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/head_title_text"
+        android:textSize="@dimen/head_title_text"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/tv_square_card_title"
+        app:layout_constraintLeft_toRightOf="@id/tv_square_card_title"
+        app:layout_constraintTop_toTopOf="@id/tv_square_card_title"
+        android:src="@mipmap/ic_next"/>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_square_card_content"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_square_card_title"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/divider"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/vp_square_card_content" />
+
+</android.support.constraint.ConstraintLayout>

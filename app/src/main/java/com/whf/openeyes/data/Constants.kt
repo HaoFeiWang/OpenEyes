@@ -26,12 +26,13 @@ object ItemType{
     const val VIDEO_SMALL_CARD = "videoSmallCard"
     const val BANNER2 = "banner2"
     const val BRIEF_CARD = "briefCard"
+    const val SQUARE_CARD = "squareCardCollection"
+    const val VIDEO_BRIEF = "videoCollectionWithBrief"
 
 
     const val SQUARE_CARD_COLLECTION = "squareCardCollection"
     const val TEXT_HEADER = "textHeader"
     const val VIDEO = "video"
-    const val SQUARE_CARD = "squareCard"
     const val ACTION_CARD = "actionCard"
 }
 

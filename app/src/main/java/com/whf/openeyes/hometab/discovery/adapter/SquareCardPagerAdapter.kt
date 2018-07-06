@@ -8,15 +8,15 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.whf.openeyes.data.LOG_TAG
-import com.whf.openeyes.net.bean.HorizontalCardData
+import com.whf.openeyes.net.bean.SquareCardData.Item
 
 /**
  * Created by whf on 2018/7/2.
  */
-class HorizontalCardPagerAdapter(val context: Context,
-                                 var cardList: List<HorizontalCardData.Item>) : PagerAdapter() {
+class SquareCardPagerAdapter(val context: Context,
+                             var cardList: List<Item>) : PagerAdapter() {
 
-    private val TAG = LOG_TAG + HorizontalCardPagerAdapter::class.java.simpleName
+    private val TAG = LOG_TAG + SquareCardPagerAdapter::class.java.simpleName
     private val itemViewArray = ArrayList<ImageView>()
     private val glideRequestOption = RequestOptions()
             .centerCrop()
@@ -48,7 +48,7 @@ class HorizontalCardPagerAdapter(val context: Context,
         container.removeView(itemViewArray[position])
     }
 
-    fun updateCardList(cardList: List<HorizontalCardData.Item>) {
+    fun updateCardList(cardList: List<Item>) {
         this.cardList = cardList
         notifyDataSetChanged()
     }

@@ -1,5 +1,6 @@
 package com.whf.openeyes.hometab.discovery.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
@@ -33,6 +34,7 @@ class DiscoveryAdapter(private var dataList: List<DataItem>,
         return dataList.size
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         val curItem = dataList[position]
@@ -105,6 +107,37 @@ class DiscoveryAdapter(private var dataList: List<DataItem>,
                 holder.tvTitle.text = curBean.title
                 holder.tvDescription.text = curBean.description
             }
+
+            is SquareCardHolder -> {
+                val curBean = Gson().fromJson(curItem.data, SquareCardData::class.java)
+                holder.tvTitle.text = curBean.header.title
+                holder.vpContent.adapter?.let {
+                    it as SquareCardPagerAdapter
+                    it.updateCardList(curBean.itemList)
+                } ?: SquareCardPagerAdapter(context, curBean.itemList).let {
+                    holder.vpContent.adapter = it
+                }
+            }
+
+            is VideoBriefHolder -> {
+                val curBean = Gson().fromJson(curItem.data, VideoBriefData::class.java)
+
+                glideRequestManager.load(curBean.header.icon).into(holder.ivHead)
+                holder.tvTitle.text = curBean.header.title
+                val description = curBean.header.description
+                if (description.length > 20) {
+                    holder.tvDescription.text = "${description.substring(0, 20)}..."
+                }else{
+                    holder.tvDescription.text = description
+                }
+
+                holder.vpContent.adapter?.let {
+                    it as VideoBriefPagerAdapter
+                    it.updateDataList(curBean.itemList)
+                } ?: VideoBriefPagerAdapter(context, curBean.itemList).let {
+                    holder.vpContent.adapter = it
+                }
+            }
         }
     }
 
@@ -121,6 +154,8 @@ class DiscoveryAdapter(private var dataList: List<DataItem>,
             ItemType.VIDEO_SMALL_CARD -> return 4
             ItemType.BANNER2 -> return 5
             ItemType.BRIEF_CARD -> return 6
+            ItemType.SQUARE_CARD -> return 7
+            ItemType.VIDEO_BRIEF -> return 8
         }
         return 0
     }
@@ -149,6 +184,14 @@ class DiscoveryAdapter(private var dataList: List<DataItem>,
 
             6 -> return BriefCardHolder(layoutInflater.inflate(
                     R.layout.item_brief_card, parent, false
+            ))
+
+            7 -> return SquareCardHolder(layoutInflater.inflate(
+                    R.layout.item_square_card, parent, false
+            ))
+
+            8 -> return VideoBriefHolder(layoutInflater.inflate(
+                    R.layout.item_video_brief_card, parent, false
             ))
         }
         return HorizontalCardHolder(layoutInflater.inflate(R.layout.item_horizontal_card, parent, false))

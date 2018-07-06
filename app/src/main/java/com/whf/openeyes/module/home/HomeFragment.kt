@@ -52,8 +52,8 @@ class HomeFragment : MvpFragment<HomeView, HomeModel, HomePresenter>() {
         }
 
         val fragmentManager = activity!!.supportFragmentManager
-        vp_content.adapter = HomePageAdapter(fragmentManager, titleArray, fragmentArray)
-        tab_top.setupWithViewPager(vp_content)
+        vp_home_content.adapter = HomePageAdapter(fragmentManager, titleArray, fragmentArray)
+        tab_top.setupWithViewPager(vp_home_content)
     }
 
 }

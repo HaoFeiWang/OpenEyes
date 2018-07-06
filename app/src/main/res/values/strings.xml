@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">高仿开眼</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="add_follow">+关注</string>
 </resources>
