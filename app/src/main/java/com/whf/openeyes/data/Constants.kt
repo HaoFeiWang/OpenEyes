@@ -28,6 +28,7 @@ object ItemType{
     const val BRIEF_CARD = "briefCard"
     const val SQUARE_CARD = "squareCardCollection"
     const val VIDEO_BRIEF = "videoCollectionWithBrief"
+    const val DYNAMIC_INFO_CARD = "DynamicInfoCard"
 
 
     const val SQUARE_CARD_COLLECTION = "squareCardCollection"

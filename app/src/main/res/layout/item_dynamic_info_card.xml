@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingEnd="@dimen/common_padding_right"
+    android:paddingStart="@dimen/common_padding_left"
+    android:paddingTop="8dp">
+
+    <ImageView
+        android:id="@+id/iv_dynamic_info_head"
+        android:layout_width="40dp"
+        android:layout_height="40dp" />
+
+    <TextView
+        android:id="@+id/tv_dynamic_info_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="3dp"
+        app:layout_constraintLeft_toRightOf="@id/iv_dynamic_info_head"
+        app:layout_constraintTop_toTopOf="@id/iv_dynamic_info_head"
+        android:textColor="#252424"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/tv_dynamic_info_action"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="评论："
+        app:layout_constraintLeft_toLeftOf="@id/tv_dynamic_info_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_dynamic_info_name" />
+
+    <ImageView
+        android:id="@+id/iv_dynamic_info_go"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/iv_dynamic_info_head"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_dynamic_info_head"
+        android:src="@mipmap/ic_next"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="2dp"
+        android:paddingEnd="6dp"
+        android:paddingStart="6dp"
+        android:paddingTop="2dp"
+        app:layout_constraintBottom_toBottomOf="@id/iv_dynamic_info_head"
+        app:layout_constraintRight_toLeftOf="@id/iv_dynamic_info_go"
+        app:layout_constraintTop_toTopOf="@id/iv_dynamic_info_head"
+        android:text="热评"
+        android:background="#f5d3d3"/>
+
+    <TextView
+        android:id="@+id/tv_dynamic_info_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        app:layout_constraintLeft_toLeftOf="@id/tv_dynamic_info_name"
+        app:layout_constraintTop_toBottomOf="@id/iv_dynamic_info_head" />
+
+    <View
+        android:id="@+id/view_dynamic_info_source"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:background="#dfdddd"
+        app:layout_constraintTop_toBottomOf="@id/tv_dynamic_info_content"
+        app:layout_constraintLeft_toLeftOf="@id/tv_dynamic_info_name"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <ImageView
+        android:id="@+id/iv_dynamic_info_source_video"
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintLeft_toLeftOf="@id/view_dynamic_info_source"
+        app:layout_constraintTop_toTopOf="@id/view_dynamic_info_source"
+        app:layout_constraintBottom_toBottomOf="@id/view_dynamic_info_source" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintRight_toRightOf="@id/view_dynamic_info_source"
+        app:layout_constraintLeft_toRightOf="@id/iv_dynamic_info_source_video"
+        app:layout_constraintTop_toTopOf="@id/view_dynamic_info_source"
+        app:layout_constraintBottom_toBottomOf="@id/view_dynamic_info_source">
+
+        <TextView
+            android:id="@+id/tv_dynamic_info_source_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="2" />
+
+        <TextView
+            android:id="@+id/tv_dynamic_info_source_classify"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_dynamic_info_reply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="回复"
+        app:layout_constraintLeft_toLeftOf="@id/tv_dynamic_info_name"
+        app:layout_constraintTop_toBottomOf="@id/view_dynamic_info_source" />
+
+    <TextView
+        android:id="@+id/tv_dynamic_info_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        app:layout_constraintLeft_toRightOf="@id/tv_dynamic_info_reply"
+        app:layout_constraintTop_toTopOf="@id/tv_dynamic_info_reply" />
+
+
+    <ImageView
+        android:id="@+id/iv_dynamic_info_praise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_dynamic_info_reply" />
+
+    <TextView
+        android:id="@+id/tv_dynamic_info_praise_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintRight_toLeftOf="@id/iv_dynamic_info_praise"
+        app:layout_constraintTop_toTopOf="@id/tv_dynamic_info_reply"
+        android:layout_marginEnd="3dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginTop="5dp"
+        android:background="@color/divider"
+        app:layout_constraintLeft_toLeftOf="@id/tv_dynamic_info_name"
+        app:layout_constraintTop_toBottomOf="@id/tv_dynamic_info_reply" />
+
+
+</android.support.constraint.ConstraintLayout>

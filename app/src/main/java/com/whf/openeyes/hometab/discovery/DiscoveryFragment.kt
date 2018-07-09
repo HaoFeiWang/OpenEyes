@@ -42,26 +42,6 @@ class DiscoveryFragment :
     }
 
     override fun updateDiscoveryData(dataListReponseData: DataList) {
-
-        val dataListReponseList:ArrayList<DataItem> = ArrayList()
-        dataListReponseList.add(dataListReponseData.itemList[0])
-        dataListReponseList.add(dataListReponseData.itemList[1])
-        dataListReponseList.add(dataListReponseData.itemList[2])
-        dataListReponseList.add(dataListReponseData.itemList[3])
-        dataListReponseList.add(dataListReponseData.itemList[4])
-        dataListReponseList.add(dataListReponseData.itemList[5])
-        dataListReponseList.add(dataListReponseData.itemList[6])
-        dataListReponseList.add(dataListReponseData.itemList[7])
-        dataListReponseList.add(dataListReponseData.itemList[8])
-        dataListReponseList.add(dataListReponseData.itemList[9])
-        dataListReponseList.add(dataListReponseData.itemList[10])
-        dataListReponseList.add(dataListReponseData.itemList[11])
-        dataListReponseList.add(dataListReponseData.itemList[12])
-        dataListReponseList.add(dataListReponseData.itemList[13])
-        dataListReponseList.add(dataListReponseData.itemList[14])
-        dataListReponseList.add(dataListReponseData.itemList[15])
-        dataListReponseList.add(dataListReponseData.itemList[16])
-
-        recyclerView.adapter = DiscoveryAdapter(dataListReponseList, context!!)
+        recyclerView.adapter = DiscoveryAdapter(dataListReponseData.itemList, context!!)
     }
 }
