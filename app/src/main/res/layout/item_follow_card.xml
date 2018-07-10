@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingTop="10dp"
     android:paddingBottom="10dp"
     android:paddingStart="@dimen/common_padding_left"
     android:paddingEnd="@dimen/common_padding_right">
@@ -17,12 +16,12 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp">
+        android:layout_height="50dp">
 
         <ImageView
             android:id="@+id/iv_follow_head_icon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_centerVertical="true"
             android:layout_marginEnd="15dp" />
 
@@ -37,7 +36,7 @@
                 android:id="@+id/tv_follow_head_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="3dp"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 

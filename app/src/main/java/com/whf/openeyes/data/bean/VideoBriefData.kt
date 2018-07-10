@@ -1,14 +1,36 @@
-package com.whf.openeyes.net.bean
+package com.whf.openeyes.data.bean
 
 
-data class FollowCardData(
+data class VideoBriefData(
         val dataType: String,
         val header: Header,
-        val content: Content,
+        val itemList: List<Item>,
+        val count: Int,
         val adTrack: Any
 ) {
 
-    data class Content(
+    data class Header(
+            val id: Int,
+            val icon: String,
+            val iconType: String,
+            val title: String,
+            val subTitle: Any,
+            val description: String,
+            val actionUrl: String,
+            val adTrack: Any,
+            val follow: Follow,
+            val ifPgc: Boolean
+    ) {
+
+        data class Follow(
+                val itemType: String,
+                val itemId: Int,
+                val followed: Boolean
+        )
+    }
+
+
+    data class Item(
             val type: String,
             val data: Data,
             val tag: Any,
@@ -35,14 +57,14 @@ data class FollowCardData(
                 val duration: Int,
                 val webUrl: WebUrl,
                 val releaseTime: Long,
-                val playInfo: List<PlayInfo>,
+                val playInfo: List<Any>,
                 val campaign: Any,
                 val waterMarks: Any,
                 val adTrack: Any,
                 val type: String,
-                val titlePgc: Any,
-                val descriptionPgc: Any,
-                val remark: String,
+                val titlePgc: String,
+                val descriptionPgc: String,
+                val remark: Any,
                 val ifLimitVideo: Boolean,
                 val searchWeight: Int,
                 val idx: Int,
@@ -73,19 +95,11 @@ data class FollowCardData(
                     val tagRecType: String
             )
 
+
             data class Provider(
                     val name: String,
                     val alias: String,
                     val icon: String
-            )
-
-
-            data class Cover(
-                    val feed: String,
-                    val detail: String,
-                    val blurred: String,
-                    val sharing: Any,
-                    val homepage: String
             )
 
 
@@ -96,27 +110,19 @@ data class FollowCardData(
             )
 
 
+            data class Cover(
+                    val feed: String,
+                    val detail: String,
+                    val blurred: String,
+                    val sharing: Any,
+                    val homepage: Any
+            )
+
+
             data class WebUrl(
                     val raw: String,
                     val forWeibo: String
             )
-
-
-            data class PlayInfo(
-                    val height: Int,
-                    val width: Int,
-                    val urlList: List<Url>,
-                    val name: String,
-                    val type: String,
-                    val url: String
-            ) {
-
-                data class Url(
-                        val name: String,
-                        val url: String,
-                        val size: Int
-                )
-            }
 
 
             data class Author(
@@ -149,23 +155,4 @@ data class FollowCardData(
             }
         }
     }
-
-
-    data class Header(
-            val id: Int,
-            val title: String,
-            val font: Any,
-            val subTitle: Any,
-            val subTitleFont: Any,
-            val textAlign: String,
-            val cover: Any,
-            val label: Any,
-            val actionUrl: String,
-            val labelList: Any,
-            val icon: String,
-            val iconType: String,
-            val description: String,
-            val time: Long,
-            val showHateVideo: Boolean
-    )
 }

@@ -1,4 +1,4 @@
-package com.whf.openeyes.net.bean
+package com.whf.openeyes.data.bean
 
 import com.google.gson.JsonObject
 

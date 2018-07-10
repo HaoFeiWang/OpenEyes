@@ -5,5 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     
     <color name="divider">#ecebeb</color>
-    <color name="head_title_text">#1e1e1e</color>
+    <color name="head_title_text">#151414</color>
+    <color name="black_bold_text">#151414</color>
 </resources>

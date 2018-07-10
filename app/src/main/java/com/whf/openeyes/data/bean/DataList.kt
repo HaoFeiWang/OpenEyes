@@ -1,4 +1,4 @@
-package com.whf.openeyes.net.bean
+package com.whf.openeyes.data.bean
 
 /**
  * Created by whf on 2018/7/2.

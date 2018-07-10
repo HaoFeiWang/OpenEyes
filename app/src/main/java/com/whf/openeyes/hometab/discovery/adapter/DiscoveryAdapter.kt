@@ -8,13 +8,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.whf.openeyes.R
 import com.whf.openeyes.data.LOG_TAG
 import com.whf.openeyes.data.ItemType
 import com.whf.openeyes.data.TextCardType
-import com.whf.openeyes.net.bean.*
+import com.whf.openeyes.data.bean.*
+import com.whf.openeyes.utils.loadCircle
+import com.whf.openeyes.utils.loadRound
 
 /**
  * Created by whf on 2018/7/2.
@@ -25,7 +26,6 @@ class DiscoveryAdapter(private var dataList: List<DataItem>,
 
     private val TAG = LOG_TAG + DiscoveryAdapter::class.java.simpleName
     private val layoutInflater = LayoutInflater.from(context)
-    private val glideRequestManager = Glide.with(context)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return createHolder(viewType, parent)
@@ -115,7 +115,7 @@ class DiscoveryAdapter(private var dataList: List<DataItem>,
     private fun bindVideoBriefHolder(curItem: DataItem, holder: VideoBriefHolder) {
         val curBean = Gson().fromJson(curItem.data, VideoBriefData::class.java)
 
-        glideRequestManager.load(curBean.header.icon).into(holder.ivHead)
+        holder.ivHead.loadCircle(curBean.header.icon)
         holder.tvTitle.text = curBean.header.title
         val description = curBean.header.description
         if (description.length > 20) {
@@ -145,27 +145,27 @@ class DiscoveryAdapter(private var dataList: List<DataItem>,
 
     private fun bindBriefCardHolder(curItem: DataItem, holder: BriefCardHolder) {
         val curBean = Gson().fromJson(curItem.data, BriefCardData::class.java)
-        glideRequestManager.load(curBean.icon).into(holder.ivContent)
+        holder.ivContent.loadRound(curBean.icon)
         holder.tvTitle.text = curBean.title
         holder.tvDescription.text = curBean.description
     }
 
     private fun bindBanner2Holder(curItem: DataItem, holder: Banner2Holder) {
         val curBean = Gson().fromJson(curItem.data, Banner2Data::class.java)
-        glideRequestManager.load(curBean.image).into(holder.ivContent)
+        holder.ivContent.loadRound(curBean.image)
     }
 
     private fun bindVideoSmallCardHolder(curItem: DataItem, holder: VideoSmallCardHolder) {
         val curBean = Gson().fromJson(curItem.data, VideoSmallCardData::class.java)
         holder.tvTitle.text = curBean.title
         holder.tvDescription.text = "#${curBean.category} / 开眼精选"
-        glideRequestManager.load(curBean.tags[0].bgPicture).into(holder.ivContent)
+        holder.ivContent.loadRound(curBean.cover.feed)
     }
 
     private fun bindFollowCardHolder(curItem: DataItem, holder: FollowCardHolder) {
         val curBean = Gson().fromJson(curItem.data, FollowCardData::class.java)
-        glideRequestManager.load(curBean.header.icon).into(holder.ivContent)
-        glideRequestManager.load(curBean.header.icon).into(holder.ivHeadIcon)
+        holder.ivContent.loadRound(curBean.content.data.cover.feed)
+        holder.ivHeadIcon.loadCircle(curBean.header.icon)
         holder.tvHeadTitle.text = curBean.header.title
         holder.tvHeadClassify.text = curBean.header.description
         holder.ivHeadIcon
@@ -212,8 +212,8 @@ class DiscoveryAdapter(private var dataList: List<DataItem>,
     private fun bindDynamicCardHolder(curItem: DataItem, holder: DynamicInfoCardHolder) {
         val curBean = Gson().fromJson(curItem.data, DynamicInfoCardData::class.java)
 
-        glideRequestManager.load(curBean.user.avatar).into(holder.ivHeadIcon)
-        glideRequestManager.load(curBean.simpleVideo.cover.feed).into(holder.ivSourceVideo)
+        holder.ivHeadIcon.loadCircle(curBean.user.avatar)
+        holder.ivSourceVideo.loadRound(curBean.simpleVideo.cover.feed)
         holder.tvName.text = curBean.user.nickname
         holder.tvAction.text = curBean.text
         holder.tvContent.text = curBean.reply.message

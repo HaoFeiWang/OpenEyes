@@ -16,24 +16,27 @@
         android:id="@+id/tv_video_brief_follow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/iv_video_brief_head"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_video_brief_head"
+        android:background="@drawable/bg_btn_follow"
+        android:paddingBottom="4dp"
+        android:paddingEnd="6dp"
+        android:paddingStart="6dp"
+        android:paddingTop="4dp"
         android:text="@string/add_follow"
-        android:background="#f4b1b1"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        android:paddingTop="3dp"
-        android:paddingBottom="3dp"/>
+        android:textColor="@color/black_bold_text"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_video_brief_head"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_video_brief_head" />
 
     <TextView
         android:id="@+id/tv_video_brief_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="2dp"
         android:layout_marginStart="10dp"
-        android:textSize="16sp"
+        android:paddingTop="2dp"
         android:textColor="@color/head_title_text"
+        android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintLeft_toRightOf="@id/iv_video_brief_head"
         app:layout_constraintTop_toTopOf="@id/iv_video_brief_head" />
@@ -42,8 +45,8 @@
         android:id="@+id/tv_video_brief_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="2dp"
         android:layout_marginStart="10dp"
+        android:paddingBottom="2dp"
         android:textSize="13sp"
         app:layout_constraintBottom_toBottomOf="@id/iv_video_brief_head"
         app:layout_constraintLeft_toRightOf="@id/iv_video_brief_head" />
@@ -53,6 +56,6 @@
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@id/iv_video_brief_head"/>
+        app:layout_constraintTop_toBottomOf="@id/iv_video_brief_head" />
 
 </android.support.constraint.ConstraintLayout>

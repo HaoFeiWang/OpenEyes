@@ -1,6 +1,6 @@
 package com.whf.openeyes.net
 
-import com.whf.openeyes.net.bean.DataList
+import com.whf.openeyes.data.bean.DataList
 import io.reactivex.Observable
 import retrofit2.http.GET
 

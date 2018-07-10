@@ -12,8 +12,7 @@ import android.view.ViewGroup
 import com.whf.openeyes.R
 import com.whf.openeyes.base.MvpFragment
 import com.whf.openeyes.hometab.discovery.adapter.DiscoveryAdapter
-import com.whf.openeyes.net.bean.DataItem
-import com.whf.openeyes.net.bean.DataList
+import com.whf.openeyes.data.bean.DataList
 
 
 /**
