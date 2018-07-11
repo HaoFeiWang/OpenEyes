@@ -7,8 +7,7 @@
     <ImageView
         android:id="@+id/iv_vp_video_brief_content"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop"/>
+        android:layout_height="200dp" />
 
     <TextView
         android:id="@+id/tv_vp_video_brief_title"

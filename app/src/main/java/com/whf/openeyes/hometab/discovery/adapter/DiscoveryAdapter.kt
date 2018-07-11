@@ -8,12 +8,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.whf.openeyes.R
 import com.whf.openeyes.data.LOG_TAG
 import com.whf.openeyes.data.ItemType
 import com.whf.openeyes.data.TextCardType
 import com.whf.openeyes.data.bean.*
+import com.whf.openeyes.hometab.discovery.DiscoveryFragment
 import com.whf.openeyes.utils.loadCircle
 import com.whf.openeyes.utils.loadRound
 
@@ -21,11 +23,14 @@ import com.whf.openeyes.utils.loadRound
  * Created by whf on 2018/7/2.
  */
 @SuppressLint("SetTextI18n")
-class DiscoveryAdapter(private var dataList: List<DataItem>,
+class DiscoveryAdapter(private var dataList: MutableList<DataItem>,
                        private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private val TAG = LOG_TAG + DiscoveryAdapter::class.java.simpleName
     private val layoutInflater = LayoutInflater.from(context)
+    private val requestManager = Glide.with(context)
+
+    var loadNext: ((Unit) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return createHolder(viewType, parent)
@@ -49,6 +54,10 @@ class DiscoveryAdapter(private var dataList: List<DataItem>,
             is SquareCardHolder -> bindSquareCardHolder(curItem, holder)
             is VideoBriefHolder -> bindVideoBriefHolder(curItem, holder)
             is DynamicInfoCardHolder -> bindDynamicCardHolder(curItem,holder)
+        }
+
+        if(position <= itemCount - 10 && loadNext!=null){
+            loadNext
         }
     }
 
@@ -115,7 +124,7 @@ class DiscoveryAdapter(private var dataList: List<DataItem>,
     private fun bindVideoBriefHolder(curItem: DataItem, holder: VideoBriefHolder) {
         val curBean = Gson().fromJson(curItem.data, VideoBriefData::class.java)
 
-        holder.ivHead.loadCircle(curBean.header.icon)
+        holder.ivHead.loadCircle(requestManager,curBean.header.icon)
         holder.tvTitle.text = curBean.header.title
         val description = curBean.header.description
         if (description.length > 20) {
@@ -145,27 +154,27 @@ class DiscoveryAdapter(private var dataList: List<DataItem>,
 
     private fun bindBriefCardHolder(curItem: DataItem, holder: BriefCardHolder) {
         val curBean = Gson().fromJson(curItem.data, BriefCardData::class.java)
-        holder.ivContent.loadRound(curBean.icon)
+        holder.ivContent.loadRound(requestManager,curBean.icon)
         holder.tvTitle.text = curBean.title
         holder.tvDescription.text = curBean.description
     }
 
     private fun bindBanner2Holder(curItem: DataItem, holder: Banner2Holder) {
         val curBean = Gson().fromJson(curItem.data, Banner2Data::class.java)
-        holder.ivContent.loadRound(curBean.image)
+        holder.ivContent.loadRound(requestManager,curBean.image)
     }
 
     private fun bindVideoSmallCardHolder(curItem: DataItem, holder: VideoSmallCardHolder) {
         val curBean = Gson().fromJson(curItem.data, VideoSmallCardData::class.java)
         holder.tvTitle.text = curBean.title
         holder.tvDescription.text = "#${curBean.category} / 开眼精选"
-        holder.ivContent.loadRound(curBean.cover.feed)
+        holder.ivContent.loadRound(requestManager,curBean.cover.feed)
     }
 
     private fun bindFollowCardHolder(curItem: DataItem, holder: FollowCardHolder) {
         val curBean = Gson().fromJson(curItem.data, FollowCardData::class.java)
-        holder.ivContent.loadRound(curBean.content.data.cover.feed)
-        holder.ivHeadIcon.loadCircle(curBean.header.icon)
+        holder.ivContent.loadRound(requestManager,curBean.content.data.cover.feed)
+        holder.ivHeadIcon.loadCircle(requestManager,curBean.header.icon)
         holder.tvHeadTitle.text = curBean.header.title
         holder.tvHeadClassify.text = curBean.header.description
         holder.ivHeadIcon
@@ -212,8 +221,8 @@ class DiscoveryAdapter(private var dataList: List<DataItem>,
     private fun bindDynamicCardHolder(curItem: DataItem, holder: DynamicInfoCardHolder) {
         val curBean = Gson().fromJson(curItem.data, DynamicInfoCardData::class.java)
 
-        holder.ivHeadIcon.loadCircle(curBean.user.avatar)
-        holder.ivSourceVideo.loadRound(curBean.simpleVideo.cover.feed)
+        holder.ivHeadIcon.loadCircle(requestManager,curBean.user.avatar)
+        holder.ivSourceVideo.loadRound(requestManager,curBean.simpleVideo.cover.feed)
         holder.tvName.text = curBean.user.nickname
         holder.tvAction.text = curBean.text
         holder.tvContent.text = curBean.reply.message
@@ -222,4 +231,10 @@ class DiscoveryAdapter(private var dataList: List<DataItem>,
         holder.tvPraiseNum.text = curBean.reply.likeCount.toString()
         holder.tvTime.text = "${curBean.user.releaseDate}"
     }
+
+    fun addDataList(itemList:List<DataItem>){
+        this.dataList.addAll(itemList)
+        notifyDataSetChanged()
+    }
+
 }

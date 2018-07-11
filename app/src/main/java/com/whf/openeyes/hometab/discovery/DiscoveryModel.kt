@@ -16,4 +16,9 @@ class DiscoveryModel:IModel{
                 .subscribeOn(Schedulers.io())
     }
 
+    fun loadNextData(nextPager:String):Observable<DataList>{
+        return HttpClient.server.nextPager(nextPager)
+                .subscribeOn(Schedulers.io())
+    }
+
 }

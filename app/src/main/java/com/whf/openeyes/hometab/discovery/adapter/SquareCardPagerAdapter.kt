@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.whf.openeyes.data.LOG_TAG
 import com.whf.openeyes.data.bean.SquareCardData.Item
 import com.whf.openeyes.utils.loadRound
@@ -14,11 +13,12 @@ import com.whf.openeyes.utils.loadRound
 /**
  * Created by whf on 2018/7/2.
  */
-class SquareCardPagerAdapter(val context: Context,
-                             var cardList: List<Item>) : PagerAdapter() {
+class SquareCardPagerAdapter(private val context: Context,
+                             private var cardList: List<Item>) : PagerAdapter() {
 
     private val TAG = LOG_TAG + SquareCardPagerAdapter::class.java.simpleName
     private val itemViewArray = ArrayList<ImageView>()
+    private val requestManager = Glide.with(context)
 
     override fun isViewFromObject(view: View, objectView: Any): Boolean {
         return view === objectView
@@ -36,7 +36,7 @@ class SquareCardPagerAdapter(val context: Context,
         }
 
         val imageView = itemViewArray[position]
-        imageView.loadRound(cardList[position].data.image)
+        imageView.loadRound(requestManager,cardList[position].data.image)
 
         container.addView(imageView)
         return imageView

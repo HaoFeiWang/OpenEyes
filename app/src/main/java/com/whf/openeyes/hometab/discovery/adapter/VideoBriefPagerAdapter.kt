@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.whf.openeyes.data.bean.VideoBriefData.Item
 import com.whf.openeyes.R
 import com.whf.openeyes.utils.loadRound
@@ -20,6 +21,7 @@ class VideoBriefPagerAdapter(context: Context,
                              private var dataList: List<Item>) : PagerAdapter() {
 
     private val layoutInflater = LayoutInflater.from(context)
+    private val requestManager = Glide.with(context)
 
     override fun isViewFromObject(view: View, objectView: Any): Boolean {
         return view === objectView
@@ -38,7 +40,7 @@ class VideoBriefPagerAdapter(context: Context,
         val tvDescription = view.findViewById<TextView>(R.id.tv_vp_video_brief_description)
 
         val curData = dataList[position].data
-        ivContent.loadRound(curData.cover.feed)
+        ivContent.loadRound(requestManager,curData.cover.feed)
         tvTitle.text = curData.title
         tvDescription.text = "#${curData.category}"
 

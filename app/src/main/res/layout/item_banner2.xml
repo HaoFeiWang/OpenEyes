@@ -12,8 +12,7 @@
         android:id="@+id/iv_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="6dp"
-        android:scaleType="centerCrop" />
+        android:layout_marginBottom="6dp" />
 
     <View
         android:layout_width="match_parent"

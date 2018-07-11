@@ -3,6 +3,7 @@ package com.whf.openeyes.net
 import com.whf.openeyes.data.bean.DataList
 import io.reactivex.Observable
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 
 /**
@@ -13,7 +14,8 @@ interface ApiServer {
     @GET("v5/index/tab/discovery")
     fun getDiscover(): Observable<DataList>
 
-
+    @GET("{nextPager}")
+    fun nextPager(@Path("nextPager") nextPager:String): Observable<DataList>
 
 //    @GET("api/v4/discovery")
 //    fun getDiscover(): Observable<Discover>

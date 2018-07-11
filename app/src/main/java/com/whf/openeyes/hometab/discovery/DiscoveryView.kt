@@ -7,5 +7,5 @@ import com.whf.openeyes.data.bean.DataList
  * Created by whf on 2018/6/30.
  */
 interface DiscoveryView : IView {
-    fun updateDiscoveryData(dataListReponseData:DataList)
+    fun updateDataList(dataListReponseData:DataList)
 }

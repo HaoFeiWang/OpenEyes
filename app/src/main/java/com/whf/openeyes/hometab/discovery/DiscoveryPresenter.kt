@@ -9,6 +9,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
  */
 class DiscoveryPresenter : MvpPresenter<DiscoveryView, DiscoveryModel>() {
 
+    private var nextPageUrl:String? = null
+
     override fun createModule(): DiscoveryModel {
         return DiscoveryModel()
     }
@@ -18,10 +20,15 @@ class DiscoveryPresenter : MvpPresenter<DiscoveryView, DiscoveryModel>() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     Log.d(TAG,"get net response success $it")
-                    mView?.updateDiscoveryData(it)
+                    nextPageUrl = it.nextPageUrl
+                    mView?.updateDataList(it)
                 }, {
                     Log.d(TAG,"get net response error $it")
                 })
+
+    }
+
+    fun loadNextData(){
 
     }
 

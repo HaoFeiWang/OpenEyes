@@ -13,7 +13,7 @@ object HttpClient {
     //使用const修饰的属性不会在静态代码块中再次赋值
     private const val BASE_RUL = "http://baobab.kaiyanapp.com/api/"
 
-    val server:ApiServer by lazy(LazyThreadSafetyMode.SYNCHRONIZED) { getApiServer() }
+    val server:ApiServer by lazy { getApiServer() }
 
     private fun getApiServer(): ApiServer {
         return getRetrofit().create(ApiServer::class.java)
