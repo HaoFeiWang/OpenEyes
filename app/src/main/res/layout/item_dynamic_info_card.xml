@@ -97,6 +97,7 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textColor="#2e2d2d"
+                android:ellipsize="end"
                 android:textSize="16sp"
                 android:maxLines="2" />
 

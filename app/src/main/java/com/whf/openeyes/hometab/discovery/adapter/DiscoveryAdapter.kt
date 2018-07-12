@@ -15,6 +15,7 @@ import com.whf.openeyes.data.LOG_TAG
 import com.whf.openeyes.data.ItemType
 import com.whf.openeyes.data.TextCardType
 import com.whf.openeyes.data.bean.*
+import com.whf.openeyes.utils.formatDuration
 import com.whf.openeyes.utils.loadCircle
 import com.whf.openeyes.utils.loadRound
 
@@ -174,6 +175,7 @@ class DiscoveryAdapter(private var dataList: MutableList<DataItem>,
         val curBean = Gson().fromJson(curItem.data, FollowCardData::class.java)
         holder.ivContent.loadRound(requestManager,curBean.content.data.cover.feed)
         holder.ivHeadIcon.loadCircle(requestManager,curBean.header.icon)
+        holder.tvDuration.text = formatDuration(curBean.content.data.duration)
         holder.tvHeadTitle.text = curBean.header.title
         holder.tvHeadClassify.text = curBean.header.description
         holder.ivHeadIcon

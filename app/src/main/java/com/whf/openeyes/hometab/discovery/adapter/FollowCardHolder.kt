@@ -11,6 +11,7 @@ import com.whf.openeyes.R
  */
 class FollowCardHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     val ivContent = itemView.findViewById(R.id.iv_follow_content) as ImageView
+    val tvDuration = itemView.findViewById(R.id.tv_follow_video_duration) as TextView
     val tvHeadTitle = itemView.findViewById(R.id.tv_follow_head_title) as TextView
     val tvHeadClassify = itemView.findViewById(R.id.tv_follow_head_classify) as TextView
     val ivHeadIcon = itemView.findViewById(R.id.iv_follow_head_icon) as ImageView
