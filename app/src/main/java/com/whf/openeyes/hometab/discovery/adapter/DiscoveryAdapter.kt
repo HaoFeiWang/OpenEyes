@@ -15,7 +15,6 @@ import com.whf.openeyes.data.LOG_TAG
 import com.whf.openeyes.data.ItemType
 import com.whf.openeyes.data.TextCardType
 import com.whf.openeyes.data.bean.*
-import com.whf.openeyes.hometab.discovery.DiscoveryFragment
 import com.whf.openeyes.utils.loadCircle
 import com.whf.openeyes.utils.loadRound
 
@@ -30,7 +29,7 @@ class DiscoveryAdapter(private var dataList: MutableList<DataItem>,
     private val layoutInflater = LayoutInflater.from(context)
     private val requestManager = Glide.with(context)
 
-    var loadNext: ((Unit) -> Unit)? = null
+    var loadNextAction: (() -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return createHolder(viewType, parent)
@@ -42,7 +41,6 @@ class DiscoveryAdapter(private var dataList: MutableList<DataItem>,
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val curItem = dataList[position]
-        Log.d(TAG, "cur item = $curItem")
 
         when (holder) {
             is HorizontalCardHolder -> bindHorizontalCardHolder(curItem, holder)
@@ -56,8 +54,9 @@ class DiscoveryAdapter(private var dataList: MutableList<DataItem>,
             is DynamicInfoCardHolder -> bindDynamicCardHolder(curItem,holder)
         }
 
-        if(position <= itemCount - 10 && loadNext!=null){
-            loadNext
+        if(position >= itemCount - 3){
+            Log.d(TAG,"cur position = $position, item count = $itemCount")
+            loadNextAction?.invoke()
         }
     }
 
@@ -182,7 +181,6 @@ class DiscoveryAdapter(private var dataList: MutableList<DataItem>,
 
     private fun bindTextCardHolder(curItem: DataItem, holder: TextCardHolder) {
         val curBean = Gson().fromJson(curItem.data, TextCardData::class.java)
-        Log.d(TAG, "text card bean = $curBean")
         when (curBean.type) {
             TextCardType.FOOTER2 -> {
                 holder.layoutFooter.visibility = View.VISIBLE
@@ -232,8 +230,13 @@ class DiscoveryAdapter(private var dataList: MutableList<DataItem>,
         holder.tvTime.text = "${curBean.user.releaseDate}"
     }
 
-    fun addDataList(itemList:List<DataItem>){
+    fun addDataList(itemList:MutableList<DataItem>){
         this.dataList.addAll(itemList)
+        notifyDataSetChanged()
+    }
+
+    fun initDataList(itemList: MutableList<DataItem>) {
+        this.dataList = itemList
         notifyDataSetChanged()
     }
 

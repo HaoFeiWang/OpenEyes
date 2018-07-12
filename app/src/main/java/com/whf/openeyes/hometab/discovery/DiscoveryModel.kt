@@ -11,7 +11,7 @@ import io.reactivex.schedulers.Schedulers
  */
 class DiscoveryModel:IModel{
 
-    fun loadData():Observable<DataList> {
+    fun initDataList():Observable<DataList> {
         return HttpClient.server.getDiscover()
                 .subscribeOn(Schedulers.io())
     }

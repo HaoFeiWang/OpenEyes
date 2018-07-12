@@ -7,4 +7,7 @@
     <color name="divider">#ecebeb</color>
     <color name="head_title_text">#151414</color>
     <color name="black_bold_text">#151414</color>
+
+    <color name="refresh_progress">#3580da</color>
+    <color name="refresh_progress_background">#ebebec</color>
 </resources>

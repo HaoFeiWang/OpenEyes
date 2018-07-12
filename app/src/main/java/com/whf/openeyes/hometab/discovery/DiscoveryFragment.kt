@@ -1,6 +1,7 @@
 package com.whf.openeyes.hometab.discovery
 
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -18,6 +19,7 @@ import com.whf.openeyes.base.MvpFragment
 import com.whf.openeyes.data.bean.DataItem
 import com.whf.openeyes.hometab.discovery.adapter.DiscoveryAdapter
 import com.whf.openeyes.data.bean.DataList
+import kotlinx.android.synthetic.main.fragment_discover.*
 
 
 /**
@@ -27,9 +29,8 @@ class DiscoveryFragment :
         MvpFragment<DiscoveryView, DiscoveryModel, DiscoveryPresenter>(),
         DiscoveryView {
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var requestManager: RequestManager
     private lateinit var mContext: Context
+    private lateinit var requestManager: RequestManager
 
     override fun createPresenter(): DiscoveryPresenter {
         return DiscoveryPresenter()
@@ -43,15 +44,18 @@ class DiscoveryFragment :
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val viewParent = inflater.inflate(R.layout.fragment_discover, container, false)
-        initRecyclerView(viewParent)
-        return viewParent
+        return inflater.inflate(R.layout.fragment_discover, container, false)
     }
 
-    private fun initRecyclerView(viewParent: View) {
-        recyclerView = viewParent.findViewById(R.id.rv_discovery_content)
-        recyclerView.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
-        recyclerView.addOnScrollListener(object:RecyclerView.OnScrollListener(){
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        initRecyclerView()
+        initSwipeRefreshLayout()
+        mPresenter.initDataList()
+    }
+
+    private fun initRecyclerView() {
+        layout_recycler.layoutManager = LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false)
+        layout_recycler.addOnScrollListener(object:RecyclerView.OnScrollListener(){
             override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
                 if (newState == SCROLL_STATE_SETTLING){
                     requestManager.pauseRequests()
@@ -62,19 +66,60 @@ class DiscoveryFragment :
         })
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        mPresenter.loadData()
+    @SuppressLint("ResourceAsColor")
+    private fun initSwipeRefreshLayout() {
+        layout_refresh.setColorSchemeColors(
+                mContext.resources.getColor(R.color.refresh_progress)
+        )
+        layout_refresh.setProgressBackgroundColorSchemeColor(
+                mContext.resources.getColor(R.color.refresh_progress_background)
+        )
+        layout_refresh.setOnRefreshListener {
+            mPresenter.initDataList()
+        }
     }
 
-    override fun updateDataList(dataListReponseData: DataList) {
-        val itemList = dataListReponseData.itemList as MutableList<DataItem>
-        recyclerView.adapter?.let {
+    override fun updateDataSuccess(dataListResponse: DataList) {
+        val itemList = dataListResponse.itemList as MutableList<DataItem>
+        layout_recycler.adapter?.let {
             it as DiscoveryAdapter
             it.addDataList(itemList)
         }?:let {
-            val discoveryAdapter = DiscoveryAdapter(itemList, mContext)
-            discoveryAdapter.loadNext = { mPresenter.loadNextData() }
-            recyclerView.adapter = discoveryAdapter
+            initAdapter(itemList)
         }
     }
+
+    override fun initDataSuccess(dataListResponse: DataList) {
+        checkRefreshState()
+
+        val itemList = dataListResponse.itemList as MutableList<DataItem>
+        layout_recycler.adapter?.let {
+            it as DiscoveryAdapter
+            it.initDataList(itemList)
+        }?:let {
+            initAdapter(itemList)
+        }
+    }
+
+    override fun loadDataError() {
+        checkRefreshState()
+
+        if (layout_recycler.adapter == null){
+            val list = ArrayList<DataItem>()
+            initAdapter(list)
+        }
+    }
+
+    private fun initAdapter(itemList: MutableList<DataItem>) {
+        val discoveryAdapter = DiscoveryAdapter(itemList, mContext)
+        discoveryAdapter.loadNextAction = { mPresenter.loadNextData() }
+        layout_recycler.adapter = discoveryAdapter
+    }
+
+    private fun checkRefreshState() {
+        if (layout_refresh.isRefreshing) {
+            layout_refresh.isRefreshing = false
+        }
+    }
+
 }
