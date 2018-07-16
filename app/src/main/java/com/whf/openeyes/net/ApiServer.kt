@@ -4,6 +4,7 @@ import com.whf.openeyes.data.bean.DataList
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 import retrofit2.http.Url
 
 
@@ -17,6 +18,28 @@ interface ApiServer {
 
     @GET
     fun nextPager(@Url nextPager:String): Observable<DataList>
+
+    @GET("v5/video/related")
+    fun related(@Query("id") id:String):Observable<DataList>
+
+//    http://baobab.kaiyanapp.com/api/v2/share?sourceType=VIDEO &itemType=WEB_PAGE&identity=112677&from=&type=VIDEO
+    // &udid=63c7a38848a24b4f8781934e908b0f77c476919c&vc=361
+    // &vn=4.2&deviceModel=MI%208&first_channel=eyepetizer_xiaomi_market
+    // &last_channel=eyepetizer_xiaomi_market
+    // &system_version_code=27
+
+
+//    http://baobab.kaiyanapp.com/api/v4/video/related?id=112677
+    // &udid=63c7a38848a24b4f8781934e908b0f77c476919c&vc=361
+    // &vn=4.2&deviceModel=MI%208&first_channel=eyepetizer_xiaomi_market
+    // &last_channel=eyepetizer_xiaomi_market&system_version_code=27
+
+
+//    http://baobab.kaiyanapp.com/api/v1/playUrl?vid=112677&resourceType=video
+    // &editionType=high&source=aliyun&udid=63c7a38848a24b4f8781934e908b0f77c476919c
+    // &vc=361&vn=4.2&deviceModel=MI%208&first_channel=eyepetizer_xiaomi_market
+    // &last_channel=eyepetizer_xiaomi_market&system_version_code=27&token=2fe574f250dbdb52
+
 
 //    @GET("api/v4/discovery")
 //    fun getDiscover(): Observable<Discover>
