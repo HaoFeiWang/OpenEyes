@@ -9,5 +9,5 @@ import com.whf.openeyes.data.bean.DataList
 interface DiscoveryView : IView {
     fun initDataSuccess(dataListResponse:DataList)
     fun updateDataSuccess(dataListResponse:DataList)
-    fun loadDataError()
+    fun loadDataFail()
 }

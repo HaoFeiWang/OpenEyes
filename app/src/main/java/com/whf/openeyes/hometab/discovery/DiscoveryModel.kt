@@ -11,14 +11,12 @@ import io.reactivex.schedulers.Schedulers
  */
 class DiscoveryModel:IModel{
 
-    fun initDataList():Observable<DataList> {
+    fun loadDataList():Observable<DataList> {
         return HttpClient.server.getDiscover()
-                .subscribeOn(Schedulers.io())
     }
 
-    fun loadNextData(nextPager:String):Observable<DataList>{
-        return HttpClient.server.nextPager(nextPager)
-                .subscribeOn(Schedulers.io())
+    fun loadNextDataList(nextPager:String):Observable<DataList>{
+        return HttpClient.server.getNextPager(nextPager)
     }
 
 }

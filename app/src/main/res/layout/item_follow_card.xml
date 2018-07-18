@@ -12,7 +12,7 @@
         android:layout_height="200dp"
         android:layout_marginBottom="10dp">
         <ImageView
-            android:id="@+id/iv_follow_content"
+            android:id="@+id/iv_follow_video_preview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

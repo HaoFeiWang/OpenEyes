@@ -10,4 +10,10 @@
 
     <color name="refresh_progress">#3580da</color>
     <color name="refresh_progress_background">#ebebec</color>
+
+
+    <color name="white_one">#ffffff</color>
+    <color name="white_two">#dfdfdf</color>
+    <color name="white_three">#c1c1c1</color>
+
 </resources>

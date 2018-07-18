@@ -1,4 +1,4 @@
-package com.whf.openeyes.hometab.discovery.adapter
+package com.whf.openeyes.adapter.viewpager
 
 import android.content.Context
 import android.support.v4.view.PagerAdapter
@@ -7,16 +7,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.whf.openeyes.data.LOG_TAG
-import com.whf.openeyes.data.bean.SquareCardData.Item
+import com.whf.openeyes.data.bean.HorizontalCardData
 import com.whf.openeyes.utils.loadRound
 
 /**
  * Created by whf on 2018/7/2.
  */
-class SquareCardPagerAdapter(private val context: Context,
-                             private var cardList: List<Item>) : PagerAdapter() {
+class HorizontalCardPagerAdapter(private val context: Context,
+                                 private var cardList: List<HorizontalCardData.Item>) : PagerAdapter() {
 
-    private val TAG = LOG_TAG + SquareCardPagerAdapter::class.java.simpleName
+    private val TAG = LOG_TAG + HorizontalCardPagerAdapter::class.java.simpleName
     private val itemViewArray = ArrayList<ImageView>()
     private val requestManager = Glide.with(context)
 
@@ -31,7 +31,6 @@ class SquareCardPagerAdapter(private val context: Context,
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         if (itemViewArray.size <= position) {
             val itemImageView = ImageView(context)
-            itemImageView.scaleType = ImageView.ScaleType.CENTER_CROP
             itemViewArray.add(itemImageView)
         }
 
@@ -46,7 +45,7 @@ class SquareCardPagerAdapter(private val context: Context,
         container.removeView(itemViewArray[position])
     }
 
-    fun updateCardList(cardList: List<Item>) {
+    fun updateCardList(cardList: List<HorizontalCardData.Item>) {
         this.cardList = cardList
         notifyDataSetChanged()
     }

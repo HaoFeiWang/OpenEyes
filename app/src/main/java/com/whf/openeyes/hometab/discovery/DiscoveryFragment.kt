@@ -17,7 +17,7 @@ import com.bumptech.glide.RequestManager
 import com.whf.openeyes.R
 import com.whf.openeyes.base.MvpFragment
 import com.whf.openeyes.data.bean.DataItem
-import com.whf.openeyes.hometab.discovery.adapter.DiscoveryAdapter
+import com.whf.openeyes.adapter.DiscoveryAdapter
 import com.whf.openeyes.data.bean.DataList
 import kotlinx.android.synthetic.main.fragment_discover.*
 
@@ -95,13 +95,13 @@ class DiscoveryFragment :
         val itemList = dataListResponse.itemList as MutableList<DataItem>
         layout_recycler.adapter?.let {
             it as DiscoveryAdapter
-            it.initDataList(itemList)
+            it.setDataList(itemList)
         }?:let {
             initAdapter(itemList)
         }
     }
 
-    override fun loadDataError() {
+    override fun loadDataFail() {
         checkRefreshState()
 
         if (layout_recycler.adapter == null){

@@ -1,4 +1,4 @@
-package com.whf.openeyes.hometab.discovery.adapter
+package com.whf.openeyes.adapter.holder
 
 import android.support.v7.widget.RecyclerView
 import android.view.View

@@ -37,7 +37,7 @@ object HttpClient {
                 .build()
     }
 
-    public fun getRelativeUrl(absoluteUrl: String): String {
+    fun getRelativeUrl(absoluteUrl: String): String {
         val relativeUrl = absoluteUrl.replace(BASE_RUL, "", false)
         Log.d(TAG, "relative url = $relativeUrl")
         return relativeUrl

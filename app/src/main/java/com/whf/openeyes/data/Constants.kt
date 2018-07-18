@@ -43,3 +43,8 @@ object TextCardType{
 }
 
 
+object ExtraKey{
+    const val VIDEO_INFO_ID = "videoInfoID"
+    const val VIDEO_INFO_CONTENT = "videoInfoContent"
+}
+

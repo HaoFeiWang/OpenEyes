@@ -4,6 +4,7 @@ import android.util.Log
 import com.whf.openeyes.base.MvpPresenter
 import com.whf.openeyes.net.HttpClient
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by whf on 2018/6/30.
@@ -24,8 +25,9 @@ class DiscoveryPresenter : MvpPresenter<DiscoveryView, DiscoveryModel>() {
             return
         }
         refreshing = true
-        mModel.initDataList()
+        mModel.loadDataList()
                 .retry(3)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     Log.d(TAG,"get net response success $it")
@@ -33,7 +35,7 @@ class DiscoveryPresenter : MvpPresenter<DiscoveryView, DiscoveryModel>() {
                     nextPageUrl = it.nextPageUrl
                     refreshing = false
                 }, {
-                    mView?.loadDataError()
+                    mView?.loadDataFail()
                     refreshing = false
                     Log.d(TAG,"get net response error $it")
                 })
@@ -47,7 +49,8 @@ class DiscoveryPresenter : MvpPresenter<DiscoveryView, DiscoveryModel>() {
 
         loadingNext = true
         nextPageUrl?.let {
-            mModel.loadNextData(HttpClient.getRelativeUrl(it))
+            mModel.loadNextDataList(HttpClient.getRelativeUrl(it))
+                    .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({
                         Log.d(TAG,"get net response success $it")

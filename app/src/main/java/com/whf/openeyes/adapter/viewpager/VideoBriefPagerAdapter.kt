@@ -1,4 +1,4 @@
-package com.whf.openeyes.hometab.discovery.adapter
+package com.whf.openeyes.adapter.viewpager
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -11,6 +11,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.whf.openeyes.data.bean.VideoBriefData.Item
 import com.whf.openeyes.R
+import com.whf.openeyes.data.bean.VideoBeanForClient
 import com.whf.openeyes.utils.loadRound
 
 
@@ -18,6 +19,7 @@ import com.whf.openeyes.utils.loadRound
  * Created by whf on 2018/7/6.
  */
 class VideoBriefPagerAdapter(context: Context,
+                             private val clickVideoAction:((Int, VideoBeanForClient?) -> Unit),
                              private var dataList: List<Item>) : PagerAdapter() {
 
     private val layoutInflater = LayoutInflater.from(context)
@@ -43,6 +45,8 @@ class VideoBriefPagerAdapter(context: Context,
         ivContent.loadRound(requestManager,curData.cover.feed)
         tvTitle.text = curData.title
         tvDescription.text = "#${curData.category}"
+
+        view.setOnClickListener { clickVideoAction(curData.id,curData) }
 
         container.addView(view)
         return view

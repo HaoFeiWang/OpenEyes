@@ -16,7 +16,7 @@
         android:id="@+id/tv_video_brief_follow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_btn_follow"
+        android:background="@drawable/bg_btn_follow_black"
         android:paddingBottom="4dp"
         android:paddingEnd="6dp"
         android:paddingStart="6dp"
