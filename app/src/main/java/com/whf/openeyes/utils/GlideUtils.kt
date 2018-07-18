@@ -5,18 +5,15 @@ import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.MultiTransformation
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.SimpleTarget
 import com.bumptech.glide.request.target.ViewTarget
 import com.bumptech.glide.request.transition.Transition
 import com.whf.openeyes.data.LOG_TAG
-import kotlinx.android.synthetic.main.activity_video_info.*
 
 
 private val roundOption = RequestOptions()
@@ -43,20 +40,19 @@ fun ImageView.loadRound(requestManager: RequestManager, url: String, radius: Int
             .into(this)
 }
 
-fun TextView.loadRoundBackground(requestManager: RequestManager, url: String) {
+fun View.loadRoundBackground(requestManager: RequestManager, url: String) {
     requestManager
-            .asBitmap()
+            .asDrawable()
             .load(url)
-            .into(BackgroundTarget())
+            .apply(roundOption)
+            .into(object : ViewTarget<View,Drawable>(this){
+                override fun onResourceReady(resource: Drawable?,
+                                             transition: Transition<in Drawable>?) {
+                    Log.d(LOG_TAG, "resource ready")
+                    getView()?.background = resource
+                }
+            })
 }
 
-
-class BackgroundTarget : SimpleTarget<Bitmap>() {
-    override fun onResourceReady(resource: Bitmap?,
-                                 transition: Transition<in Bitmap>?) {
-        Log.d(LOG_TAG, "resource ready")
-//                    getView()?.background = resource
-    }
-}
 
 

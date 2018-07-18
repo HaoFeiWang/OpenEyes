@@ -30,7 +30,7 @@ data class VideoBeanForClient(
         val campaign: String?,
         val waterMarks: String?,
         val adTrack: String?,
-        val type: String,
+        var type: String,
         val titlePgc: String?,
         val descriptionPgc: String?,
         val remark: String?,

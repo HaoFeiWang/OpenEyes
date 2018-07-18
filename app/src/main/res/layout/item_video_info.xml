@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -10,8 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingEnd="@dimen/common_padding_right"
-        android:paddingStart="@dimen/common_padding_left"
-        app:layout_constraintTop_toBottomOf="@id/view_texture">
+        android:paddingStart="@dimen/common_padding_left">
 
         <TextView
             android:id="@+id/tv_video_title"
@@ -143,20 +143,21 @@
     <LinearLayout
         android:id="@+id/ll_video_classify"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="65dp"
         android:orientation="horizontal"
-        android:paddingBottom="15dp"
+        android:paddingBottom="12dp"
         android:paddingEnd="@dimen/common_padding_right"
         android:paddingStart="@dimen/common_padding_left"
-        android:paddingTop="15dp">
+        android:paddingTop="12dp">
 
         <TextView
             android:id="@+id/tv_video_classify_one"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:padding="2dp"
+            android:gravity="center"
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="3dp"
             android:textColor="@color/white_two"
             android:textSize="@dimen/text_size_13"
             android:textStyle="bold" />
@@ -164,10 +165,11 @@
         <TextView
             android:id="@+id/tv_video_classify_two"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:padding="2dp"
+            android:gravity="center"
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="3dp"
             android:textColor="@color/white_two"
             android:textSize="@dimen/text_size_13"
             android:textStyle="bold" />
@@ -175,10 +177,11 @@
         <TextView
             android:id="@+id/tv_video_classify_three"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:padding="2dp"
+            android:gravity="center"
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="3dp"
             android:textColor="@color/white_two"
             android:textSize="@dimen/text_size_13"
             android:textStyle="bold" />
@@ -194,17 +197,16 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:paddingBottom="15dp"
+        android:layout_height="65dp"
+        android:paddingBottom="12dp"
         android:paddingEnd="@dimen/common_padding_right"
         android:paddingStart="@dimen/common_padding_left"
-        android:paddingTop="15dp">
+        android:paddingTop="12dp">
 
         <ImageView
             android:id="@+id/iv_video_author_head"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginEnd="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -212,8 +214,10 @@
             android:id="@+id/tv_video_author_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:textColor="@color/white_two"
             android:textSize="@dimen/text_size_15"
+            android:paddingTop="3dp"
             android:textStyle="bold"
             app:layout_constraintLeft_toRightOf="@id/iv_video_author_head"
             app:layout_constraintTop_toTopOf="@id/iv_video_author_head" />
@@ -222,10 +226,12 @@
             android:id="@+id/tv_video_author_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:textColor="@color/white_three"
             android:textSize="@dimen/text_size_13"
             app:layout_constraintBottom_toBottomOf="@id/iv_video_author_head"
-            app:layout_constraintLeft_toRightOf="@id/iv_video_author_head" />
+            app:layout_constraintLeft_toRightOf="@id/iv_video_author_head"
+            android:paddingBottom="3dp"/>
 
         <TextView
             android:id="@+id/tv_video_author_follow"

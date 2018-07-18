@@ -39,6 +39,9 @@ interface ApiServer {
     // &last_channel=eyepetizer_xiaomi_market
     // &system_version_code=27
 
+    //http://baobab.kaiyanapp.com/api/v4/video/related?id=113511&udid=12345678&vc=376&vn=4.2.2&deviceModel=MI%208
+    // &first_channel=eyepetizer_xiaomi_market&last_channel=eyepetizer_xiaomi_market
+    // &system_version_code=27
 
 //    http://baobab.kaiyanapp.com/api/v4/video/related?id=112677
     // &udid=63c7a38848a24b4f8781934e908b0f77c476919c&vc=361

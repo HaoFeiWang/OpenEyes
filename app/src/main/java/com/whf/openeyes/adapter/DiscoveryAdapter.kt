@@ -21,6 +21,7 @@ import com.whf.openeyes.data.bean.*
 import com.whf.openeyes.utils.formatDuration
 import com.whf.openeyes.utils.loadCircle
 import com.whf.openeyes.utils.loadRound
+import com.whf.openeyes.utils.loadRoundBackground
 import com.whf.openeyes.video.VideoInfoActivity
 
 /**
@@ -54,27 +55,6 @@ class DiscoveryAdapter(private var dataList: MutableList<DataItem>,
         return dataList.size
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val curItem = dataList[position]
-
-        when (holder) {
-            is HorizontalCardHolder -> bindHorizontalCardHolder(curItem, holder)
-            is TextCardHolder -> bindTextCardHolder(curItem, holder)
-            is FollowCardHolder -> bindFollowCardHolder(curItem, holder)
-            is VideoSmallCardHolder -> bindVideoSmallCardHolder(curItem, holder)
-            is Banner2Holder -> bindBanner2Holder(curItem, holder)
-            is BriefCardHolder -> bindBriefCardHolder(curItem, holder)
-            is SquareCardHolder -> bindSquareCardHolder(curItem, holder)
-            is VideoBriefHolder -> bindVideoBriefHolder(curItem, holder)
-            is DynamicInfoCardHolder -> bindDynamicCardHolder(curItem, holder)
-        }
-
-        if (position >= itemCount - 3) {
-            Log.d(TAG, "cur position = $position, item count = $itemCount")
-            loadNextAction?.invoke()
-        }
-    }
-
     override fun getItemViewType(position: Int): Int {
         return getType(dataList[position].type)
     }
@@ -90,8 +70,31 @@ class DiscoveryAdapter(private var dataList: MutableList<DataItem>,
             ItemType.SQUARE_CARD -> return 7
             ItemType.VIDEO_BRIEF -> return 8
             ItemType.DYNAMIC_INFO_CARD -> return 9
+            ItemType.VIDEO_INFO -> return 10
         }
         return 0
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val curItem = dataList[position]
+
+        when (holder) {
+            is HorizontalCardHolder -> bindHorizontalCardHolder(curItem, holder)
+            is TextCardHolder -> bindTextCardHolder(curItem, holder)
+            is FollowCardHolder -> bindFollowCardHolder(curItem, holder)
+            is VideoSmallCardHolder -> bindVideoSmallCardHolder(curItem, holder)
+            is Banner2Holder -> bindBanner2Holder(curItem, holder)
+            is BriefCardHolder -> bindBriefCardHolder(curItem, holder)
+            is SquareCardHolder -> bindSquareCardHolder(curItem, holder)
+            is VideoBriefHolder -> bindVideoBriefHolder(curItem, holder)
+            is DynamicInfoCardHolder -> bindDynamicCardHolder(curItem, holder)
+            is VideoInfoHolder -> bindVideoInfoHolder(curItem,holder)
+        }
+
+        if (position >= itemCount - 3) {
+            Log.d(TAG, "cur position = $position, item count = $itemCount")
+            loadNextAction?.invoke()
+        }
     }
 
     private fun createHolder(viewType: Int, parent: ViewGroup): RecyclerView.ViewHolder {
@@ -130,6 +133,10 @@ class DiscoveryAdapter(private var dataList: MutableList<DataItem>,
 
             9 -> return DynamicInfoCardHolder(layoutInflater.inflate(
                     R.layout.item_dynamic_info_card, parent, false
+            ))
+
+            10 -> return VideoInfoHolder(layoutInflater.inflate(
+                    R.layout.item_video_info, parent, false
             ))
         }
         return EmptyHolder(View(context))
@@ -252,6 +259,30 @@ class DiscoveryAdapter(private var dataList: MutableList<DataItem>,
             clickVideoAction(curBean.simpleVideo.id, null)
         }
     }
+
+    private fun bindVideoInfoHolder(curItem: DataItem, holder: VideoInfoHolder) {
+        val curBean = Gson().fromJson(curItem.data, VideoBeanForClient::class.java)
+
+        holder.tvVideoTitle.text = curBean.title
+        holder.tvVideoClassify.text = "#${curBean.category} / 开眼精选"
+        holder.tvVideoDescription.text = curBean.description
+        holder.tvVideoPraise.text = curBean.consumption.collectionCount.toString()
+        holder.tvVideoShare.text = curBean.consumption.shareCount.toString()
+        holder.tvVideoReply.text = curBean.consumption.replyCount.toString()
+
+        holder.tvVideoClassifyOne.text = "#${curBean.tags[0].name}#"
+        holder.tvVideoClassifyTwo.text = "#${curBean.tags[1].name}#"
+        holder.tvVideoClassifyThree.text = "#${curBean.tags[2].name}#"
+
+        holder.tvVideoClassifyOne.loadRoundBackground(requestManager,curBean.tags[0].bgPicture)
+        holder.tvVideoClassifyTwo.loadRoundBackground(requestManager,curBean.tags[1].bgPicture)
+        holder.tvVideoClassifyThree.loadRoundBackground(requestManager,curBean.tags[2].bgPicture)
+
+        holder.tvVideoAuthorHeader.loadCircle(requestManager, curBean.author.icon)
+        holder.tvVideoAuthorTitle.text = curBean.author.name
+        holder.tvVideoAuthorDescription.text = curBean.author.description
+    }
+
 
     fun setDataList(itemList: MutableList<DataItem>) {
         this.dataList = itemList

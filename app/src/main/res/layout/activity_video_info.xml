@@ -15,8 +15,8 @@
         android:id="@+id/rv_video_related"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingEnd="@dimen/common_padding_right"
-        android:paddingStart="@dimen/common_padding_left" />
+        android:overScrollMode="never"
+        android:background="#807f7f"/>
 
 
 </LinearLayout>
