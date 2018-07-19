@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.whf.openeyes.data.bean.VideoBriefData.Item
 import com.whf.openeyes.R
 import com.whf.openeyes.data.bean.VideoBeanForClient
-import com.whf.openeyes.utils.loadRound
+import com.whf.openeyes.utils.loadRoundSrc
 
 
 /**
@@ -42,7 +42,7 @@ class VideoBriefPagerAdapter(context: Context,
         val tvDescription = view.findViewById<TextView>(R.id.tv_vp_video_brief_description)
 
         val curData = dataList[position].data
-        ivContent.loadRound(requestManager,curData.cover.feed)
+        ivContent.loadRoundSrc(requestManager,curData.cover.feed)
         tvTitle.text = curData.title
         tvDescription.text = "#${curData.category}"
 

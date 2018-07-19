@@ -8,7 +8,7 @@ import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.whf.openeyes.data.LOG_TAG
 import com.whf.openeyes.data.bean.HorizontalCardData
-import com.whf.openeyes.utils.loadRound
+import com.whf.openeyes.utils.loadRoundSrc
 
 /**
  * Created by whf on 2018/7/2.
@@ -35,7 +35,7 @@ class HorizontalCardPagerAdapter(private val context: Context,
         }
 
         val imageView = itemViewArray[position]
-        imageView.loadRound(requestManager,cardList[position].data.image)
+        imageView.loadRoundSrc(requestManager,cardList[position].data.image)
 
         container.addView(imageView)
         return imageView

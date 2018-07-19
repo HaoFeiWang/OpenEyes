@@ -18,10 +18,7 @@ import com.whf.openeyes.adapter.viewpager.SquareCardPagerAdapter
 import com.whf.openeyes.adapter.viewpager.VideoBriefPagerAdapter
 import com.whf.openeyes.data.*
 import com.whf.openeyes.data.bean.*
-import com.whf.openeyes.utils.formatDuration
-import com.whf.openeyes.utils.loadCircle
-import com.whf.openeyes.utils.loadRound
-import com.whf.openeyes.utils.loadRoundBackground
+import com.whf.openeyes.utils.*
 import com.whf.openeyes.video.VideoInfoActivity
 
 /**
@@ -145,7 +142,7 @@ class DiscoveryAdapter(private var dataList: MutableList<DataItem>,
     private fun bindVideoBriefHolder(curItem: DataItem, holder: VideoBriefHolder) {
         val curBean = Gson().fromJson(curItem.data, VideoBriefData::class.java)
 
-        holder.ivHead.loadCircle(requestManager, curBean.header.icon)
+        holder.ivHead.loadCircleSrc(requestManager, curBean.header.icon)
         holder.tvTitle.text = curBean.header.title
         holder.tvDescription.text = curBean.header.description
 
@@ -170,21 +167,21 @@ class DiscoveryAdapter(private var dataList: MutableList<DataItem>,
 
     private fun bindBriefCardHolder(curItem: DataItem, holder: BriefCardHolder) {
         val curBean = Gson().fromJson(curItem.data, BriefCardData::class.java)
-        holder.ivContent.loadRound(requestManager, curBean.icon)
+        holder.ivContent.loadRoundSrc(requestManager, curBean.icon)
         holder.tvTitle.text = curBean.title
         holder.tvDescription.text = curBean.description
     }
 
     private fun bindBanner2Holder(curItem: DataItem, holder: Banner2Holder) {
         val curBean = Gson().fromJson(curItem.data, Banner2Data::class.java)
-        holder.ivContent.loadRound(requestManager, curBean.image)
+        holder.ivContent.loadRoundSrc(requestManager, curBean.image)
     }
 
     private fun bindVideoSmallCardHolder(curItem: DataItem, holder: VideoSmallCardHolder) {
         val curBean = Gson().fromJson(curItem.data, VideoBeanForClient::class.java)
         holder.tvTitle.text = curBean.title
         holder.tvDescription.text = "#${curBean.category} / 开眼精选"
-        holder.ivContent.loadRound(requestManager, curBean.cover.feed)
+        holder.ivContent.loadRoundSrc(requestManager, curBean.cover.feed)
 
         holder.itemView.setOnClickListener {
             clickVideoAction.invoke(curBean.id, curBean)
@@ -193,8 +190,8 @@ class DiscoveryAdapter(private var dataList: MutableList<DataItem>,
 
     private fun bindFollowCardHolder(curItem: DataItem, holder: FollowCardHolder) {
         val curBean = Gson().fromJson(curItem.data, FollowCardData::class.java)
-        holder.ivVideoPreview.loadRound(requestManager, curBean.content.data.cover.feed)
-        holder.ivHeadIcon.loadCircle(requestManager, curBean.header.icon)
+        holder.ivVideoPreview.loadRoundSrc(requestManager, curBean.content.data.cover.feed)
+        holder.ivHeadIcon.loadCircleSrc(requestManager, curBean.header.icon)
         holder.tvDuration.text = formatDuration(curBean.content.data.duration)
         holder.tvHeadTitle.text = curBean.header.title
         holder.tvHeadClassify.text = curBean.header.description
@@ -259,8 +256,8 @@ class DiscoveryAdapter(private var dataList: MutableList<DataItem>,
     private fun bindDynamicCardHolder(curItem: DataItem, holder: DynamicInfoCardHolder) {
         val curBean = Gson().fromJson(curItem.data, DynamicInfoCardData::class.java)
 
-        holder.ivHeadIcon.loadCircle(requestManager, curBean.user.avatar)
-        holder.ivSourceVideo.loadRound(requestManager, curBean.simpleVideo.cover.feed)
+        holder.ivHeadIcon.loadCircleSrc(requestManager, curBean.user.avatar)
+        holder.ivSourceVideo.loadRoundSrc(requestManager, curBean.simpleVideo.cover.feed)
         holder.tvName.text = curBean.user.nickname
         holder.tvAction.text = curBean.text
         holder.tvContent.text = curBean.reply.message
@@ -288,11 +285,11 @@ class DiscoveryAdapter(private var dataList: MutableList<DataItem>,
         holder.tvVideoClassifyTwo.text = "#${curBean.tags[1].name}#"
         holder.tvVideoClassifyThree.text = "#${curBean.tags[2].name}#"
 
-        holder.tvVideoClassifyOne.loadRoundBackground(requestManager,curBean.tags[0].bgPicture)
-        holder.tvVideoClassifyTwo.loadRoundBackground(requestManager,curBean.tags[1].bgPicture)
-        holder.tvVideoClassifyThree.loadRoundBackground(requestManager,curBean.tags[2].bgPicture)
+        holder.tvVideoClassifyOne.loadRoundMaskBackground(requestManager,curBean.tags[0].bgPicture)
+        holder.tvVideoClassifyTwo.loadRoundMaskBackground(requestManager,curBean.tags[1].bgPicture)
+        holder.tvVideoClassifyThree.loadRoundMaskBackground(requestManager,curBean.tags[2].bgPicture)
 
-        holder.tvVideoAuthorHeader.loadCircle(requestManager, curBean.author.icon)
+        holder.tvVideoAuthorHeader.loadCircleSrc(requestManager, curBean.author.icon)
         holder.tvVideoAuthorTitle.text = curBean.author.name
         holder.tvVideoAuthorDescription.text = curBean.author.description
     }
