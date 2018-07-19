@@ -229,6 +229,8 @@
             android:layout_marginStart="10dp"
             android:textColor="@color/white_three"
             android:textSize="@dimen/text_size_13"
+            android:ellipsize="end"
+            android:maxLines="1"
             app:layout_constraintBottom_toBottomOf="@id/iv_video_author_head"
             app:layout_constraintLeft_toRightOf="@id/iv_video_author_head"
             android:paddingBottom="3dp"/>

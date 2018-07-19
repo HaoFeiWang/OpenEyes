@@ -209,8 +209,9 @@ class DiscoveryAdapter(private var dataList: MutableList<DataItem>,
         val curBean = Gson().fromJson(curItem.data, TextCardData::class.java)
         when (curBean.type) {
             TextCardType.FOOTER2 -> {
+                holder.layoutHead5.visibility = View.GONE
+                holder.layoutHead4.visibility = View.GONE
                 holder.layoutFooter.visibility = View.VISIBLE
-                holder.layoutHead.visibility = View.GONE
                 holder.tvFooterContent.text = curBean.text
                 if (TextUtils.isEmpty(curBean.actionUrl)) {
                     holder.ivFooterGo.visibility = View.GONE
@@ -220,13 +221,26 @@ class DiscoveryAdapter(private var dataList: MutableList<DataItem>,
             }
 
             TextCardType.HEAD5 -> {
-                holder.layoutHead.visibility = View.VISIBLE
                 holder.layoutFooter.visibility = View.GONE
-                holder.tvHeadContent.text = curBean.text
+                holder.layoutHead4.visibility = View.GONE
+                holder.layoutHead5.visibility = View.VISIBLE
+                holder.tvHead5Content.text = curBean.text
                 if (TextUtils.isEmpty(curBean.actionUrl)) {
-                    holder.ivHeadGo.visibility = View.GONE
+                    holder.ivHead5Go.visibility = View.GONE
                 } else {
-                    holder.ivHeadGo.visibility = View.VISIBLE
+                    holder.ivHead5Go.visibility = View.VISIBLE
+                }
+            }
+
+            TextCardType.HEAD4 -> {
+                holder.layoutFooter.visibility = View.GONE
+                holder.layoutHead5.visibility = View.GONE
+                holder.layoutHead4.visibility = View.VISIBLE
+                holder.tvHead4Content.text = curBean.text
+                if (TextUtils.isEmpty(curBean.actionUrl)) {
+                    holder.ivHead4Go.visibility = View.GONE
+                } else {
+                    holder.ivHead4Go.visibility = View.VISIBLE
                 }
             }
         }

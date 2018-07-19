@@ -1,6 +1,7 @@
 package com.whf.openeyes.net
 
 import android.text.TextUtils
+import android.util.ArrayMap
 import android.util.Log
 import com.whf.openeyes.data.LOG_TAG
 import okhttp3.OkHttpClient
@@ -41,6 +42,15 @@ object HttpClient {
         val relativeUrl = absoluteUrl.replace(BASE_RUL, "", false)
         Log.d(TAG, "relative url = $relativeUrl")
         return relativeUrl
+    }
+
+    fun getCommonParams():Map<String,String>{
+        val commonParams = ArrayMap<String,String>()
+        commonParams["uuid"] = "63c7a38848a24b4f8781934e908b0f77c476919c"
+        commonParams["vc"] = "361"
+        commonParams["vn"] = "4.2"
+        commonParams["deviceModel"] = "MI%208"
+        return  commonParams
     }
 
 }

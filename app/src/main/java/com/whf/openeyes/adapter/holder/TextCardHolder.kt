@@ -13,9 +13,13 @@ import com.whf.openeyes.R
  */
 class TextCardHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    val layoutHead = itemView.findViewById(R.id.ll_head) as LinearLayout
-    val tvHeadContent = itemView.findViewById(R.id.tv_head_content) as TextView
-    val ivHeadGo = itemView.findViewById(R.id.iv_head_go) as ImageView
+    val layoutHead5 = itemView.findViewById(R.id.ll_head5) as LinearLayout
+    val tvHead5Content = itemView.findViewById(R.id.tv_head5_content) as TextView
+    val ivHead5Go = itemView.findViewById(R.id.iv_head5_go) as ImageView
+
+    val layoutHead4 = itemView.findViewById(R.id.ll_head4) as LinearLayout
+    val tvHead4Content = itemView.findViewById(R.id.tv_head4_content) as TextView
+    val ivHead4Go = itemView.findViewById(R.id.iv_head4_go) as ImageView
 
     val layoutFooter = itemView.findViewById(R.id.rl_footer) as RelativeLayout
     val tvFooterContent = itemView.findViewById(R.id.tv_footer_content) as TextView

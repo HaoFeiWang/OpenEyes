@@ -38,6 +38,7 @@ object ItemType{
 }
 
 object TextCardType{
+    const val HEAD4 = "header4"
     const val HEAD5 = "header5"
     const val FOOTER2 = "footer2"
 }

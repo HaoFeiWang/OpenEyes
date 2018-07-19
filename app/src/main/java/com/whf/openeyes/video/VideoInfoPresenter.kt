@@ -2,6 +2,7 @@ package com.whf.openeyes.video
 
 import android.util.Log
 import com.whf.openeyes.base.MvpPresenter
+import com.whf.openeyes.net.HttpClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -27,7 +28,7 @@ class VideoInfoPresenter: MvpPresenter<VideoInfoView, VideoInfoModel>(){
     }
 
     fun initRelatedData(videoId: Int) {
-        mModel.getRelatedData(videoId)
+        mModel.getRelatedData(videoId,HttpClient.getCommonParams())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

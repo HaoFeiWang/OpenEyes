@@ -1,31 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="15dp">
+    android:layout_height="wrap_content">
 
     <LinearLayout
-        android:id="@+id/ll_head"
+        android:id="@+id/ll_head5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingEnd="@dimen/common_padding_right"
         android:paddingStart="@dimen/common_padding_left"
+        android:paddingBottom="15dp"
         android:paddingTop="30dp">
 
         <TextView
-            android:id="@+id/tv_head_content"
+            android:id="@+id/tv_head5_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="本周排行"
             android:textColor="@color/head_title_text"
             android:textSize="@dimen/head_title_text"
             android:textStyle="bold" />
 
         <!--判断是否有actionUrl来显示-->
         <ImageView
-            android:id="@+id/iv_head_go"
+            android:id="@+id/iv_head5_go"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:src="@mipmap/ic_next" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_head4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingEnd="@dimen/common_padding_right"
+        android:paddingStart="@dimen/common_padding_left"
+        android:paddingTop="20dp"
+        android:paddingBottom="5dp">
+
+        <TextView
+            android:id="@+id/tv_head4_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white_two"
+            android:textSize="@dimen/text_size_17"
+            android:textStyle="bold" />
+
+        <!--判断是否有actionUrl来显示-->
+        <ImageView
+            android:id="@+id/iv_head4_go"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -57,7 +84,6 @@
                 android:id="@+id/tv_footer_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="查看本周热门排行"
                 android:textColor="#1e1e1e"
                 android:textSize="14sp"
                 android:textStyle="bold" />

@@ -1,6 +1,5 @@
 package com.whf.openeyes.utils
 
-import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.View
@@ -53,6 +52,5 @@ fun View.loadRoundBackground(requestManager: RequestManager, url: String) {
                 }
             })
 }
-
 
 

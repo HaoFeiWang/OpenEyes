@@ -15,7 +15,7 @@ class VideoInfoModel : IModel {
         return HttpClient.server.getVideoInfo(videoId.toString())
     }
 
-    fun getRelatedData(videoId: Int): Observable<DataList> {
-        return HttpClient.server.getRelated(videoId.toString())
+    fun getRelatedData(videoId: Int,commonParams:Map<String,String>): Observable<DataList> {
+        return HttpClient.server.getRelated(videoId.toString(),commonParams)
     }
 }
