@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.google.gson.Gson
 import com.whf.openeyes.R
 import com.whf.openeyes.adapter.holder.*
+import com.whf.openeyes.adapter.holder.VideoInfoHolder
 import com.whf.openeyes.adapter.viewpager.HorizontalCardPagerAdapter
 import com.whf.openeyes.adapter.viewpager.SquareCardPagerAdapter
 import com.whf.openeyes.adapter.viewpager.VideoBriefPagerAdapter
@@ -25,17 +26,20 @@ import com.whf.openeyes.video.VideoInfoActivity
  * Created by whf on 2018/7/2.
  */
 @SuppressLint("SetTextI18n")
-class DiscoveryAdapter(private var dataList: MutableList<DataItem>,
-                       private val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class CommonAdapter(private val context: Context,
+                    private val colorType: Int,
+                    private var dataList: MutableList<DataItem>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val TAG = LOG_TAG + DiscoveryAdapter::class.java.simpleName
+    private val TAG = LOG_TAG + CommonAdapter::class.java.simpleName
 
     private val layoutInflater = LayoutInflater.from(context)
     private val requestManager = Glide.with(context)
+    private val resource = context.resources
 
     var loadNextAction: (() -> Unit)? = null
 
     private var clickVideoAction: ((Int, VideoBeanForClient?) -> Unit) = { id, videoBean ->
+        Log.d(TAG,"click item id = $id")
 
         val intent = Intent(context, VideoInfoActivity::class.java)
         intent.putExtra(ExtraKey.VIDEO_INFO_ID, id)
@@ -85,7 +89,7 @@ class DiscoveryAdapter(private var dataList: MutableList<DataItem>,
             is SquareCardHolder -> bindSquareCardHolder(curItem, holder)
             is VideoBriefHolder -> bindVideoBriefHolder(curItem, holder)
             is DynamicInfoCardHolder -> bindDynamicCardHolder(curItem, holder)
-            is VideoInfoHolder -> bindVideoInfoHolder(curItem,holder)
+            is VideoInfoHolder -> bindVideoInfoHolder(curItem, holder)
         }
 
         if (position >= itemCount - 3) {
@@ -182,6 +186,11 @@ class DiscoveryAdapter(private var dataList: MutableList<DataItem>,
         holder.tvTitle.text = curBean.title
         holder.tvDescription.text = "#${curBean.category} / 开眼精选"
         holder.ivContent.loadRoundSrc(requestManager, curBean.cover.feed)
+
+        if(colorType == ColorType.LIGHT){
+            holder.tvTitle.setTextColor(resource.getColor(R.color.white_two))
+            holder.tvDescription.setTextColor(resource.getColor(R.color.white_two))
+        }
 
         holder.itemView.setOnClickListener {
             clickVideoAction.invoke(curBean.id, curBean)
@@ -285,9 +294,9 @@ class DiscoveryAdapter(private var dataList: MutableList<DataItem>,
         holder.tvVideoClassifyTwo.text = "#${curBean.tags[1].name}#"
         holder.tvVideoClassifyThree.text = "#${curBean.tags[2].name}#"
 
-        holder.tvVideoClassifyOne.loadRoundMaskBackground(requestManager,curBean.tags[0].bgPicture)
-        holder.tvVideoClassifyTwo.loadRoundMaskBackground(requestManager,curBean.tags[1].bgPicture)
-        holder.tvVideoClassifyThree.loadRoundMaskBackground(requestManager,curBean.tags[2].bgPicture)
+        holder.tvVideoClassifyOne.loadRoundMaskBackground(requestManager, curBean.tags[0].headerImage)
+        holder.tvVideoClassifyTwo.loadRoundMaskBackground(requestManager, curBean.tags[1].headerImage)
+        holder.tvVideoClassifyThree.loadRoundMaskBackground(requestManager, curBean.tags[2].headerImage)
 
         holder.tvVideoAuthorHeader.loadCircleSrc(requestManager, curBean.author.icon)
         holder.tvVideoAuthorTitle.text = curBean.author.name

@@ -43,6 +43,11 @@ object TextCardType{
     const val FOOTER2 = "footer2"
 }
 
+object ColorType{
+    const val LIGHT = 1
+    const val BLACK = 2
+}
+
 
 object ExtraKey{
     const val VIDEO_INFO_ID = "videoInfoID"

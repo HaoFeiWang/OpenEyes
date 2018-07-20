@@ -11,7 +11,7 @@
         android:id="@+id/tv_square_card_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/head_title_text"
+        android:textColor="@color/black_two"
         android:textSize="@dimen/head_title_text"
         android:textStyle="bold" />
 
@@ -33,7 +33,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/divider"
+        android:background="@color/divider_white"
         android:layout_marginTop="8dp"
         app:layout_constraintTop_toBottomOf="@id/vp_square_card_content" />
 

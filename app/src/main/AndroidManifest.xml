@@ -23,7 +23,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".video.VideoInfoActivity">
+        <activity android:name=".video.VideoInfoActivity"
+            android:launchMode="singleTask">
         </activity>
 
     </application>

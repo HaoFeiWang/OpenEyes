@@ -42,16 +42,16 @@ data class VideoBeanForClient(
         val webAdTrack: String?,
         val date: Long,
         val promotion: String?,
-        val label: String?,
-        val labelList: List<String>,
+        val label: Label?,
+        val labelList: List<Label>,
         val descriptionEditor: String,
         val collected: Boolean,
         val played: Boolean,
-        val subtitles: List<String>,
+        val subtitles: List<SubTitle>,
         val lastViewTime: String?,
         val playlists: String?,
         val src: String?
-):Parcelable {
+) : Parcelable {
 
     data class Tag(
             val id: Int,
@@ -62,7 +62,7 @@ data class VideoBeanForClient(
             val bgPicture: String,
             val headerImage: String,
             val tagRecType: String
-    ):Parcelable{
+    ) : Parcelable {
         constructor(parcel: Parcel) : this(
                 parcel.readInt(),
                 parcel.readString(),
@@ -93,7 +93,7 @@ data class VideoBeanForClient(
             override fun createFromParcel(parcel: Parcel?): Tag? {
                 parcel?.let {
                     return Tag(parcel)
-                }?:return null
+                } ?: return null
             }
 
             override fun newArray(size: Int): Array<Tag?> {
@@ -107,7 +107,7 @@ data class VideoBeanForClient(
             val name: String,
             val alias: String,
             val icon: String
-    ):Parcelable{
+    ) : Parcelable {
         constructor(parcel: Parcel) : this(
                 parcel.readString(),
                 parcel.readString(),
@@ -142,7 +142,7 @@ data class VideoBeanForClient(
             val blurred: String,
             val sharing: String?,
             val homepage: String?
-    ):Parcelable{
+    ) : Parcelable {
         constructor(parcel: Parcel) : this(
                 parcel.readString(),
                 parcel.readString(),
@@ -179,7 +179,7 @@ data class VideoBeanForClient(
             val collectionCount: Int,
             val shareCount: Int,
             val replyCount: Int
-    ):Parcelable{
+    ) : Parcelable {
         constructor(parcel: Parcel) : this(
                 parcel.readInt(),
                 parcel.readInt(),
@@ -211,7 +211,7 @@ data class VideoBeanForClient(
     data class WebUrl(
             val raw: String,
             val forWeibo: String
-    ):Parcelable{
+    ) : Parcelable {
         constructor(parcel: Parcel) : this(
                 parcel.readString(),
                 parcel.readString()
@@ -245,13 +245,13 @@ data class VideoBeanForClient(
             val name: String,
             val type: String,
             val url: String
-    ):Parcelable {
+    ) : Parcelable {
 
         data class Url(
                 val name: String,
                 val url: String,
                 val size: Int
-        ):Parcelable{
+        ) : Parcelable {
             constructor(parcel: Parcel) : this(
                     parcel.readString(),
                     parcel.readString(),
@@ -326,7 +326,7 @@ data class VideoBeanForClient(
             val shield: Shield,
             val approvedNotReadyVideoCount: Int,
             val ifPgc: Boolean
-    ):Parcelable {
+    ) : Parcelable {
 
         constructor(parcel: Parcel) : this(
                 parcel.readInt(),
@@ -347,7 +347,7 @@ data class VideoBeanForClient(
                 val itemType: String,
                 val itemId: Int,
                 val shielded: Boolean
-        ):Parcelable{
+        ) : Parcelable {
             constructor(parcel: Parcel) : this(
                     parcel.readString(),
                     parcel.readInt(),
@@ -380,7 +380,7 @@ data class VideoBeanForClient(
                 val itemType: String,
                 val itemId: Int,
                 val followed: Boolean
-        ):Parcelable{
+        ) : Parcelable {
 
             constructor(parcel: Parcel) : this(
                     parcel.readString(),
@@ -439,6 +439,64 @@ data class VideoBeanForClient(
         }
     }
 
+    data class Label(
+            val text: String,
+            val actionUrl: String) : Parcelable {
+        constructor(parcel: Parcel) : this(
+                parcel.readString(),
+                parcel.readString()
+        )
+
+        override fun writeToParcel(parcel: Parcel, flags: Int) {
+            parcel.writeString(text)
+            parcel.writeString(actionUrl)
+        }
+
+        override fun describeContents(): Int {
+            return 0
+        }
+
+        companion object CREATOR : Parcelable.Creator<Label> {
+            override fun createFromParcel(parcel: Parcel): Label {
+                return Label(parcel)
+            }
+
+            override fun newArray(size: Int): Array<Label?> {
+                return arrayOfNulls(size)
+            }
+        }
+    }
+
+    data class SubTitle(
+            val type: String,
+            val url: String
+    ) : Parcelable {
+        constructor(parcel: Parcel) : this(
+                parcel.readString(),
+                parcel.readString()
+        )
+
+        override fun writeToParcel(parcel: Parcel, flags: Int) {
+            parcel.writeString(type)
+            parcel.writeString(url)
+        }
+
+        override fun describeContents(): Int {
+            return 0
+        }
+
+        companion object CREATOR : Parcelable.Creator<SubTitle> {
+            override fun createFromParcel(parcel: Parcel): SubTitle {
+                return SubTitle(parcel)
+            }
+
+            override fun newArray(size: Int): Array<SubTitle?> {
+                return arrayOfNulls(size)
+            }
+        }
+
+    }
+
     constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readInt(),
@@ -474,12 +532,12 @@ data class VideoBeanForClient(
             parcel.readString(),
             parcel.readLong(),
             parcel.readString(),
-            parcel.readString(),
-            parcel.createStringArrayList(),
+            parcel.readParcelable(Label::class.java.classLoader),
+            parcel.createTypedArrayList(Label),
             parcel.readString(),
             parcel.readByte() != 0.toByte(),
             parcel.readByte() != 0.toByte(),
-            parcel.createStringArrayList(),
+            parcel.createTypedArrayList(SubTitle),
             parcel.readString(),
             parcel.readString(),
             parcel.readString()
@@ -520,12 +578,12 @@ data class VideoBeanForClient(
         parcel.writeString(webAdTrack)
         parcel.writeLong(date)
         parcel.writeString(promotion)
-        parcel.writeString(label)
-        parcel.writeStringList(labelList)
+        parcel.writeParcelable(label, flags)
+        parcel.writeTypedList(labelList)
         parcel.writeString(descriptionEditor)
         parcel.writeByte(if (collected) 1 else 0)
         parcel.writeByte(if (played) 1 else 0)
-        parcel.writeStringList(subtitles)
+        parcel.writeTypedList(subtitles)
         parcel.writeString(lastViewTime)
         parcel.writeString(playlists)
         parcel.writeString(src)

@@ -17,6 +17,7 @@ class VideoInfoPresenter: MvpPresenter<VideoInfoView, VideoInfoModel>(){
 
     fun initVideoInfo(videoId: Int) {
         mModel.getVideoInfo(videoId)
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
@@ -29,6 +30,7 @@ class VideoInfoPresenter: MvpPresenter<VideoInfoView, VideoInfoModel>(){
 
     fun initRelatedData(videoId: Int) {
         mModel.getRelatedData(videoId,HttpClient.getCommonParams())
+                .retry(3)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

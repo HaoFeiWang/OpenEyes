@@ -3,17 +3,18 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#161616</color>
     <color name="colorAccent">#FF4081</color>
-    
-    <color name="divider">#ecebeb</color>
-    <color name="head_title_text">#151414</color>
-    <color name="black_bold_text">#151414</color>
-
     <color name="refresh_progress">#3580da</color>
-    <color name="refresh_progress_background">#ebebec</color>
 
-
+    <!--深色背景配色-->
+    <color name="divider_black">#2ed9d8d8</color>
     <color name="white_one">#ffffff</color>
     <color name="white_two">#dfdfdf</color>
     <color name="white_three">#c1c1c1</color>
+
+    <!-- 浅色背景配色 -->
+    <color name="divider_white">#ecebeb</color>
+    <color name="black_one">#050505</color>
+    <color name="black_two">#181818</color>
+    <color name="black_three">#202020</color>
 
 </resources>

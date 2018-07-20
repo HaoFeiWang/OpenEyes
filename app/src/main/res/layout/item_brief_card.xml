@@ -47,7 +47,7 @@
         android:text="@string/add_follow"
         android:textSize="12sp"
         android:textStyle="bold"
-        android:textColor="@color/black_bold_text"
+        android:textColor="@color/black_one"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -55,7 +55,7 @@
     <View
         android:layout_width="wrap_content"
         android:layout_height="1px"
-        android:background="@color/divider"
+        android:background="@color/divider_white"
         app:layout_constraintBottom_toBottomOf="parent" />
 
 

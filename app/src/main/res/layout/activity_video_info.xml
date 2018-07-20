@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_view"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#525c61"
     tools:context="com.whf.openeyes.video.VideoInfoActivity">
 
     <TextureView
@@ -15,8 +17,7 @@
         android:id="@+id/rv_video_related"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:overScrollMode="never"
-        android:background="#807f7f"/>
+        android:overScrollMode="never" />
 
 
 </LinearLayout>

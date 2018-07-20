@@ -18,7 +18,7 @@
             android:id="@+id/tv_head5_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/head_title_text"
+            android:textColor="@color/black_two"
             android:textSize="@dimen/head_title_text"
             android:textStyle="bold" />
 
@@ -71,7 +71,7 @@
             android:layout_height="1px"
             android:layout_marginStart="@dimen/common_padding_left"
             android:layout_marginEnd="10dp"
-            android:background="@color/divider" />
+            android:background="@color/divider_white" />
 
         <LinearLayout
             android:layout_width="wrap_content"
