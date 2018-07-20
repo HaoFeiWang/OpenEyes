@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root_view"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#525c61"
     tools:context="com.whf.openeyes.video.VideoInfoActivity">
-
-    <TextureView
-        android:id="@+id/view_texture"
-        android:layout_width="match_parent"
-        android:layout_height="220dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_video_related"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="220dp"
         android:overScrollMode="never" />
 
 
-</LinearLayout>
+    <TextureView
+        android:id="@+id/view_texture"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:visibility="gone"/>
+
+
+</FrameLayout>
