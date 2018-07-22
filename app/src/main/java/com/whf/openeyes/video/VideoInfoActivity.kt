@@ -34,7 +34,7 @@ class VideoInfoActivity :
     private var relatedDataList: List<DataItem>? = null
 
     private var playUrl: String? = null
-    private var surface: SurfaceTexture? = null
+    private var surfaceTexture: SurfaceTexture? = null
     private lateinit var mediaPlayer: MediaPlayer
 
     private var isPause: Boolean = false
@@ -148,16 +148,17 @@ class VideoInfoActivity :
 
     private fun initMediaPlayerDataSource(videoBeanForClient: VideoBeanForClient) {
         this.playUrl = videoBeanForClient.playUrl
+        mediaPlayer.reset()
         mediaPlayer.setDataSource(playUrl)
         prepareMediaPlayer()
     }
 
     override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture?, width: Int, height: Int) {
-        Log.d(TAG, "surface texture size changed width = $width ; height = $height!")
+        Log.d(TAG, "surfaceTexture texture size changed width = $width ; height = $height!")
     }
 
     override fun onSurfaceTextureUpdated(surface: SurfaceTexture?) {
-        Log.d(TAG, "surface texture update!")
+        Log.d(TAG, "surfaceTexture texture update!")
     }
 
     override fun onSurfaceTextureDestroyed(surface: SurfaceTexture?): Boolean {
@@ -165,14 +166,15 @@ class VideoInfoActivity :
     }
 
     override fun onSurfaceTextureAvailable(surface: SurfaceTexture?, width: Int, height: Int) {
-        Log.d(TAG, "surface texture available!")
-        this.surface = surface
+        Log.d(TAG, "surfaceTexture texture available!")
+        this.surfaceTexture = surface
         prepareMediaPlayer()
     }
 
     private fun prepareMediaPlayer() {
-        if (playUrl != null && surface != null) {
-            mediaPlayer.setSurface(Surface(surface))
+        if (playUrl != null && surfaceTexture != null) {
+            //必须SurfaceTexture不为空才能创建Surface
+            mediaPlayer.setSurface(Surface(surfaceTexture))
             mediaPlayer.prepareAsync()
         }
     }
