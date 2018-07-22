@@ -87,17 +87,7 @@ class VideoInfoActivity :
             return
         }
 
-        val videoBeanForClient = intent.getParcelableExtra<VideoBeanForClient>(ExtraKey.VIDEO_INFO_CONTENT)
-        val videoId = intent.getIntExtra(ExtraKey.VIDEO_INFO_ID, 0)
-        Log.d(TAG, "intent video id = $videoId")
-
-        if (videoBeanForClient == null) {
-            mPresenter.initVideoInfo(videoId)
-        } else {
-            initVideoInfoSuccess(videoBeanForClient)
-        }
-
-        mPresenter.initRelatedData(videoId)
+        mPresenter.initData(intent)
     }
 
     override fun initVideoInfoSuccess(videoBeanForClient: VideoBeanForClient) {

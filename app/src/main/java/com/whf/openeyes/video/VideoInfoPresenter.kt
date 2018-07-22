@@ -1,7 +1,10 @@
 package com.whf.openeyes.video
 
+import android.content.Intent
 import android.util.Log
 import com.whf.openeyes.base.MvpPresenter
+import com.whf.openeyes.data.ExtraKey
+import com.whf.openeyes.data.bean.VideoBeanForClient
 import com.whf.openeyes.net.HttpClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -13,6 +16,20 @@ class VideoInfoPresenter: MvpPresenter<VideoInfoView, VideoInfoModel>(){
 
     override fun createModule(): VideoInfoModel {
         return VideoInfoModel()
+    }
+
+    fun initData(intent: Intent) {
+        val videoBeanForClient = intent.getParcelableExtra<VideoBeanForClient>(ExtraKey.VIDEO_INFO_CONTENT)
+        val videoId = intent.getIntExtra(ExtraKey.VIDEO_INFO_ID, 0)
+        Log.d(TAG, "intent video id = $videoId")
+
+        if (videoBeanForClient == null) {
+            initVideoInfo(videoId)
+        } else {
+            mView?.initVideoInfoSuccess(videoBeanForClient)
+        }
+
+        initRelatedData(videoId)
     }
 
     fun initVideoInfo(videoId: Int) {
