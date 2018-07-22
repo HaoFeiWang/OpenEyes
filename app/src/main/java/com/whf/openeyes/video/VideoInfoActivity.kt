@@ -9,16 +9,11 @@ import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
 import android.view.Surface
 import android.view.TextureView
-import android.view.View
 import com.bumptech.glide.Glide
-import com.google.gson.Gson
-import com.google.gson.JsonObject
 import com.whf.openeyes.R
 import com.whf.openeyes.adapter.CommonAdapter
 import com.whf.openeyes.base.MvpActivity
 import com.whf.openeyes.data.ColorType
-import com.whf.openeyes.data.ExtraKey
-import com.whf.openeyes.data.ItemType
 import com.whf.openeyes.data.bean.DataItem
 import com.whf.openeyes.data.bean.DataList
 import com.whf.openeyes.data.bean.VideoBeanForClient
@@ -31,13 +26,18 @@ class VideoInfoActivity :
         MvpActivity<VideoInfoView, VideoInfoModel, VideoInfoPresenter>(),
         VideoInfoView, TextureView.SurfaceTextureListener {
 
-    private var relatedDataList: List<DataItem>? = null
+    companion object State {
+        const val STATE_ERROR = -1
+        const val STATE_IDLE = 0
+        const val STATE_PLAYING = 1
+        const val STATE_PAUSED = 2
+    }
 
     private var playUrl: String? = null
     private var surfaceTexture: SurfaceTexture? = null
     private lateinit var mediaPlayer: MediaPlayer
 
-    private var isPause: Boolean = false
+    private var curState = STATE_IDLE
 
     override fun createPresenter(): VideoInfoPresenter {
         return VideoInfoPresenter()
@@ -54,26 +54,27 @@ class VideoInfoActivity :
 
     override fun onStart() {
         super.onStart()
-        if (isPause){
-            mediaPlayer.start()
-        }
+        startPlay()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        pausePlay()
     }
 
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
 
         Log.d(TAG, "on new intent")
-        relatedDataList = null
+        mPresenter.cleanRelatedData()
         setIntent(intent)
         initData()
     }
 
-
     private fun initView() {
         mediaPlayer = MediaPlayer()
         mediaPlayer.setOnPreparedListener {
-            rl_video_control.visibility = View.GONE
-            it.start()
+            startPlay()
         }
 
         view_texture.surfaceTextureListener = this
@@ -83,29 +84,31 @@ class VideoInfoActivity :
     }
 
     private fun initData() {
-        if (intent == null) {
-            return
-        }
-
-        mPresenter.initData(intent)
+        intent?.let { mPresenter.initData(it) }
     }
 
     override fun initVideoInfoSuccess(videoBeanForClient: VideoBeanForClient) {
         val requestManager = Glide.with(this)
         root_view.loadMaskBackground(requestManager, videoBeanForClient.cover.blurred)
-        rl_video_control.loadBackgournd(requestManager, videoBeanForClient.cover.feed)
+        layout_video.loadBackgournd(requestManager, videoBeanForClient.cover.feed)
 
-        initRecyclerAdapter(videoBeanForClient)
+        mPresenter.prepareRecyclerViewData(videoBeanForClient)
         initMediaPlayerDataSource(videoBeanForClient)
     }
 
-    override fun initRelatedDataSuccess(dataListResponse: DataList) {
-        val mutableDataList = dataListResponse.itemList as MutableList<DataItem>
+    override fun initRelatedDataSuccess(dataList: MutableList<DataItem>) {
         rv_video_related.adapter?.let {
             it as CommonAdapter
-            it.addDataList(mutableDataList)
-        } ?: let {
-            relatedDataList = mutableDataList
+            it.addDataList(dataList)
+        }
+    }
+
+    override fun prepareRecyclerViewDataSuccess(dataList: MutableList<DataItem>) {
+        rv_video_related.adapter?.let {
+            it as CommonAdapter
+            it.setDataList(dataList)
+        } ?: with(CommonAdapter(this, ColorType.LIGHT, dataList)) {
+            rv_video_related.adapter = this
         }
     }
 
@@ -117,28 +120,10 @@ class VideoInfoActivity :
 
     }
 
-    private fun initRecyclerAdapter(videoBeanForClient: VideoBeanForClient) {
-        val jsonString = Gson().toJson(videoBeanForClient)
-        val jsonObject = Gson().fromJson<JsonObject>(jsonString, JsonObject::class.java)
-        val dataItem = DataItem(ItemType.VIDEO_INFO, jsonObject, "", 0, 0)
-
-        val dataList = ArrayList<DataItem>()
-        dataList.add(dataItem)
-        relatedDataList?.let {
-            dataList.addAll(it)
-        }
-
-        rv_video_related.adapter?.let {
-            it as CommonAdapter
-            it.setDataList(dataList)
-        } ?: with(CommonAdapter(this, ColorType.LIGHT, dataList)) {
-            rv_video_related.adapter = this
-        }
-    }
-
     private fun initMediaPlayerDataSource(videoBeanForClient: VideoBeanForClient) {
         this.playUrl = videoBeanForClient.playUrl
         mediaPlayer.reset()
+        curState = STATE_IDLE
         mediaPlayer.setDataSource(playUrl)
         prepareMediaPlayer()
     }
@@ -169,14 +154,16 @@ class VideoInfoActivity :
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        pausePlay()
+    private fun startPlay() {
+        if (curState != STATE_PLAYING) {
+            curState = STATE_PLAYING
+            mediaPlayer.start()
+        }
     }
 
     private fun pausePlay() {
-        if (mediaPlayer.isPlaying){
-            isPause = true
+        if (curState == STATE_PLAYING) {
+            curState = STATE_PAUSED
             mediaPlayer.pause()
         }
     }

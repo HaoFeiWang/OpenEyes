@@ -14,16 +14,25 @@
         android:layout_marginTop="220dp"
         android:overScrollMode="never" />
 
-    <TextureView
-        android:id="@+id/view_texture"
-        android:layout_width="match_parent"
-        android:layout_height="220dp" />
-
-    <RelativeLayout
-        android:id="@+id/rl_video_control"
+    <FrameLayout
+        android:id="@+id/layout_video"
         android:layout_width="match_parent"
         android:layout_height="220dp">
 
-    </RelativeLayout>
+        <TextureView
+            android:id="@+id/view_texture"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <RelativeLayout
+            android:id="@+id/layout_video_control"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+
+        </RelativeLayout>
+
+    </FrameLayout>
 
 </FrameLayout>
