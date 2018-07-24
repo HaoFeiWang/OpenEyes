@@ -4,38 +4,50 @@ import android.content.Context
 import android.graphics.SurfaceTexture
 import android.media.MediaPlayer
 import android.util.AttributeSet
+import android.util.Log
+import android.view.MotionEvent
 import android.view.Surface
 import android.view.TextureView
 import android.view.View
+import com.whf.openeyes.data.LOG_TAG
 
 /**
  * Created by whf on 2018/7/23.
  */
 
-class VideoPlayerView(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :
-        TextureView(context, attrs, defStyleAttr), TextureView.SurfaceTextureListener,
+class VideoPlayerView : TextureView, TextureView.SurfaceTextureListener,
         MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
         IVideoControl, MediaPlayer.OnVideoSizeChangedListener,
-        MediaPlayer.OnCompletionListener {
+        MediaPlayer.OnCompletionListener,View.OnTouchListener {
 
-    private companion object {
-        private const val STATE_ERROR = -1
-        private const val STATE_IDLE = 0
-        private const val STATE_PREPARING = 1
-        private const val STATE_PREPARED = 2
-        private const val STATE_PLAYING = 3
-        private const val STATE_PAUSED = 4
-        private const val STATE_PLAYBACK_COMPLETED = 5
+    private val TAG = "$LOG_TAG${VideoPlayerView::class.java.simpleName}"
+
+    constructor(context: Context) : super(context)
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+
+    init {
+        surfaceTextureListener = this
+        setOnTouchListener(this)
     }
 
-    private var mVideoWidth = 0
-    private var mVideoHeight = 0
+    companion object {
+        const val STATE_ERROR = -1
+        const val STATE_IDLE = 0
+        const val STATE_PREPARING = 1
+        const val STATE_PREPARED = 2
+        const val STATE_PLAYING = 3
+        const val STATE_PAUSED = 4
+        const val STATE_COMPLETED = 5
+    }
 
     private var mCurrentState = STATE_IDLE
     private var mTargetState = STATE_IDLE
 
     private var mSurface: Surface? = null
+    private var isInitMediaPlayer = false
     private val mMediaPlayer: MediaPlayer by lazy {
+        isInitMediaPlayer = true
         val mediaPlayer = MediaPlayer()
         mediaPlayer.setOnPreparedListener(this)
         mediaPlayer.setOnErrorListener(this)
@@ -44,82 +56,26 @@ class VideoPlayerView(context: Context, attrs: AttributeSet? = null, defStyleAtt
         return@lazy mediaPlayer
     }
 
-
-    //TODO 使用动态代理的形式控制当前控件的生命周期
-
-    var mVideoControl: IVideoControl? = null
+    var mVideoControl: StandardVideoControl? = null
     var mPlayUrl: String? = null
         set(value) {
             field = value
             openVideo()
         }
 
-    override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        var width = View.getDefaultSize(mVideoWidth, widthMeasureSpec)
-        var height = View.getDefaultSize(mVideoHeight, heightMeasureSpec)
-
-        if (mVideoWidth > 0 && mVideoHeight > 0) {
-            val widthSpecMode = View.MeasureSpec.getMode(widthMeasureSpec)
-            val widthSpecSize = View.MeasureSpec.getSize(widthMeasureSpec)
-            val heightSpecMode = View.MeasureSpec.getMode(heightMeasureSpec)
-            val heightSpecSize = View.MeasureSpec.getSize(heightMeasureSpec)
-
-            if (widthSpecMode == View.MeasureSpec.EXACTLY && heightSpecMode == View.MeasureSpec.EXACTLY) {
-                width = widthSpecSize
-                height = heightSpecSize
-
-                //当宽高都为Match/固定尺寸时，根据视频比例缩放宽/高
-                if (mVideoWidth * height < width * mVideoHeight) {
-                    width = height * mVideoWidth / mVideoHeight
-                } else if (mVideoWidth * height > width * mVideoHeight) {
-                    height = width * mVideoHeight / mVideoWidth
-                }
-            } else if (widthSpecMode == View.MeasureSpec.EXACTLY) {
-                width = widthSpecSize
-
-                //当宽为Match/固定尺寸时，根据视频比例缩放高
-                height = width * mVideoHeight / mVideoWidth
-                if (heightSpecMode == View.MeasureSpec.AT_MOST && height > heightSpecSize) {
-                    height = heightSpecSize
-                }
-            } else if (heightSpecMode == View.MeasureSpec.EXACTLY) {
-                height = heightSpecSize
-
-                //当高为Match/固定尺寸时，根据视频比例缩放宽
-                width = height * mVideoWidth / mVideoHeight
-                if (widthSpecMode == View.MeasureSpec.AT_MOST && width > widthSpecSize) {
-                    width = widthSpecSize
-                }
-            } else {
-                width = mVideoWidth
-                height = mVideoHeight
-
-                //当视频宽、高都为Wrap时，则按照视频比例缩放宽高（先定高）
-                if (heightSpecMode == View.MeasureSpec.AT_MOST && height > heightSpecSize) {
-                    height = heightSpecSize
-                    width = height * mVideoWidth / mVideoHeight
-                }
-                if (widthSpecMode == View.MeasureSpec.AT_MOST && width > widthSpecSize) {
-                    width = widthSpecSize
-                    height = width * mVideoHeight / mVideoWidth
-                }
-            }
-        }
-        setMeasuredDimension(width, height)
+    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
+        super.onLayout(changed, left, top, right, bottom)
+        Log.d(TAG,"video player width = $width height = $height")
+        mVideoControl?.updateSize(width,height)
     }
 
     override fun onVideoSizeChanged(mp: MediaPlayer?, width: Int, height: Int) {
-        mVideoWidth = width
-        mVideoHeight = height
-        requestLayout()
     }
 
     override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture?, width: Int, height: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onSurfaceTextureUpdated(surface: SurfaceTexture?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onSurfaceTextureDestroyed(surface: SurfaceTexture?): Boolean {
@@ -130,15 +86,18 @@ class VideoPlayerView(context: Context, attrs: AttributeSet? = null, defStyleAtt
     }
 
     override fun onSurfaceTextureAvailable(surface: SurfaceTexture?, width: Int, height: Int) {
+        Log.d(TAG, "surface texture available!")
         mSurface = Surface(surface)
         openVideo()
     }
 
     override fun onCompletion(mp: MediaPlayer?) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mCurrentState = STATE_COMPLETED
     }
 
     override fun onPrepared(mp: MediaPlayer?) {
+        Log.d(TAG, "media player prepared!")
+        mCurrentState = STATE_PREPARED
         if (mTargetState == STATE_PLAYING) {
             start()
         }
@@ -152,8 +111,10 @@ class VideoPlayerView(context: Context, attrs: AttributeSet? = null, defStyleAtt
     }
 
     override fun start() {
+        Log.d(TAG, "start video,current state = $mCurrentState,target state = $mTargetState")
         if (isInPlaybackState()) {
             mMediaPlayer.start()
+            mVideoControl?.show()
         }
         mTargetState = STATE_PLAYING
     }
@@ -168,12 +129,15 @@ class VideoPlayerView(context: Context, attrs: AttributeSet? = null, defStyleAtt
 
     private fun openVideo() {
         if (mPlayUrl == null || mSurface == null) {
+            Log.d(TAG, "open video play url = $mPlayUrl mSurface = $mSurface")
             return
         }
 
         mMediaPlayer.reset()
         mMediaPlayer.setDataSource(mPlayUrl)
         mMediaPlayer.setSurface(mSurface)
+
+        mCurrentState = STATE_PREPARING
         mMediaPlayer.prepareAsync()
     }
 
@@ -183,4 +147,19 @@ class VideoPlayerView(context: Context, attrs: AttributeSet? = null, defStyleAtt
                 mCurrentState != STATE_PREPARING
     }
 
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        if (isInitMediaPlayer) {
+            mMediaPlayer.reset()
+            mMediaPlayer.release()
+        }
+    }
+
+    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+        if(MotionEvent.ACTION_DOWN == event?.action){
+            Log.d(TAG,"touch video player!")
+            mVideoControl?.show()
+        }
+        return false
+    }
 }

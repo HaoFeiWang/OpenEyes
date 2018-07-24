@@ -1,36 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root_view"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#525c61"
+    android:orientation="vertical"
     tools:context="com.whf.openeyes.video.VideoInfoActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        android:id="@+id/video_player_background">
+
+        <com.whf.openeyes.widget.VideoPlayerView
+            android:id="@+id/video_player"
+            android:layout_width="match_parent"
+            android:layout_height="210dp" />
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_video_related"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="220dp"
         android:overScrollMode="never" />
 
-    <FrameLayout
-        android:id="@+id/layout_video"
-        android:layout_width="match_parent"
-        android:layout_height="220dp">
-
-        <TextureView
-            android:id="@+id/view_texture"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <RelativeLayout
-            android:id="@+id/layout_video_control"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </RelativeLayout>
-
-    </FrameLayout>
-
-</FrameLayout>
+</LinearLayout>
