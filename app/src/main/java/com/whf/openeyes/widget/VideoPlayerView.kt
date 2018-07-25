@@ -5,20 +5,20 @@ import android.graphics.SurfaceTexture
 import android.media.MediaPlayer
 import android.util.AttributeSet
 import android.util.Log
-import android.view.MotionEvent
 import android.view.Surface
 import android.view.TextureView
 import android.view.View
+import android.widget.RelativeLayout
 import com.whf.openeyes.data.LOG_TAG
 
 /**
  * Created by whf on 2018/7/23.
  */
 
-class VideoPlayerView : TextureView, TextureView.SurfaceTextureListener,
+class VideoPlayerView : RelativeLayout, TextureView.SurfaceTextureListener,
         MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
         IVideoControl, MediaPlayer.OnVideoSizeChangedListener,
-        MediaPlayer.OnCompletionListener,View.OnTouchListener {
+        MediaPlayer.OnCompletionListener {
 
     private val TAG = "$LOG_TAG${VideoPlayerView::class.java.simpleName}"
 
@@ -27,8 +27,14 @@ class VideoPlayerView : TextureView, TextureView.SurfaceTextureListener,
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
 
     init {
-        surfaceTextureListener = this
-        setOnTouchListener(this)
+        val textureView = TextureView(context)
+        textureView.layoutParams = RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.MATCH_PARENT
+        )
+
+        addView(textureView)
+        textureView.surfaceTextureListener = this
     }
 
     companion object {
@@ -57,17 +63,20 @@ class VideoPlayerView : TextureView, TextureView.SurfaceTextureListener,
     }
 
     var mVideoControl: StandardVideoControl? = null
+        set(value) {
+            field = value
+            field?.layoutParams = RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.MATCH_PARENT,
+                    RelativeLayout.LayoutParams.MATCH_PARENT
+            )
+            addView(field)
+        }
     var mPlayUrl: String? = null
         set(value) {
             field = value
             openVideo()
         }
 
-    override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-        super.onLayout(changed, left, top, right, bottom)
-        Log.d(TAG,"video player width = $width height = $height")
-        mVideoControl?.updateSize(width,height)
-    }
 
     override fun onVideoSizeChanged(mp: MediaPlayer?, width: Int, height: Int) {
     }
@@ -114,7 +123,7 @@ class VideoPlayerView : TextureView, TextureView.SurfaceTextureListener,
         Log.d(TAG, "start video,current state = $mCurrentState,target state = $mTargetState")
         if (isInPlaybackState()) {
             mMediaPlayer.start()
-            mVideoControl?.show()
+            mVideoControl?.hideLoading()
         }
         mTargetState = STATE_PLAYING
     }
@@ -133,6 +142,7 @@ class VideoPlayerView : TextureView, TextureView.SurfaceTextureListener,
             return
         }
 
+        mVideoControl?.showLoading()
         mMediaPlayer.reset()
         mMediaPlayer.setDataSource(mPlayUrl)
         mMediaPlayer.setSurface(mSurface)
@@ -153,13 +163,5 @@ class VideoPlayerView : TextureView, TextureView.SurfaceTextureListener,
             mMediaPlayer.reset()
             mMediaPlayer.release()
         }
-    }
-
-    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-        if(MotionEvent.ACTION_DOWN == event?.action){
-            Log.d(TAG,"touch video player!")
-            mVideoControl?.show()
-        }
-        return false
     }
 }

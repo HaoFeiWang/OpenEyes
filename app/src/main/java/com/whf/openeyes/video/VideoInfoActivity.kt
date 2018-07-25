@@ -74,7 +74,7 @@ class VideoInfoActivity :
     override fun initVideoInfoSuccess(videoBeanForClient: VideoBeanForClient) {
         val requestManager = Glide.with(this)
         root_view.loadMaskBackground(requestManager, videoBeanForClient.cover.blurred)
-        video_player_background.loadBackgournd(requestManager, videoBeanForClient.cover.feed)
+        video_player.loadBackgournd(requestManager, videoBeanForClient.cover.feed)
 
         video_player.mVideoControl = StandardVideoControl(this)
         video_player.mPlayUrl = videoBeanForClient.playUrl

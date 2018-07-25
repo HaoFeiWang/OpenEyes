@@ -8,17 +8,10 @@
     android:orientation="vertical"
     tools:context="com.whf.openeyes.video.VideoInfoActivity">
 
-
-    <RelativeLayout
+    <com.whf.openeyes.widget.VideoPlayerView
+        android:id="@+id/video_player"
         android:layout_width="match_parent"
-        android:layout_height="210dp"
-        android:id="@+id/video_player_background">
-
-        <com.whf.openeyes.widget.VideoPlayerView
-            android:id="@+id/video_player"
-            android:layout_width="match_parent"
-            android:layout_height="210dp" />
-    </RelativeLayout>
+        android:layout_height="210dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_video_related"
