@@ -65,6 +65,8 @@ class VideoInfoActivity :
         rv_video_related.layoutManager = LinearLayoutManager(
                 this, LinearLayoutManager.VERTICAL, false
         )
+
+        video_player.mVideoControl = StandardVideoControl(this)
     }
 
     private fun initData() {
@@ -76,9 +78,7 @@ class VideoInfoActivity :
         root_view.loadMaskBackground(requestManager, videoBeanForClient.cover.blurred)
         video_player.loadBackgournd(requestManager, videoBeanForClient.cover.feed)
 
-        video_player.mVideoControl = StandardVideoControl(this)
-        video_player.mPlayUrl = videoBeanForClient.playUrl
-        video_player.start()
+        video_player.start(videoBeanForClient.playUrl)
 
         mPresenter.prepareRecyclerViewData(videoBeanForClient)
     }

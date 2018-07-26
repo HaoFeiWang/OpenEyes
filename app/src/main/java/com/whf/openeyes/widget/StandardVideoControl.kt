@@ -2,6 +2,7 @@ package com.whf.openeyes.widget
 
 import android.content.Context
 import android.os.Handler
+import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -13,12 +14,14 @@ import com.whf.openeyes.data.LOG_TAG
 /**
  * Created by whf on 2018/7/23.
  */
-class StandardVideoControl(context: Context) : RelativeLayout(context),
-        View.OnClickListener, IVideoControl, View.OnTouchListener {
+class StandardVideoControl(context: Context) : BaseVideoControl(context),
+        IVideoStateCallback, View.OnTouchListener, SeekBar.OnSeekBarChangeListener {
 
     private val TAG = LOG_TAG + StandardVideoControl::class.java.simpleName
 
     private var isShowingControl = false
+    private var isFinishPrepare = false
+    private var seekToValue = -1
 
     private val view = LayoutInflater.from(context).inflate(
             R.layout.layout_video_standard_control, this, false
@@ -28,63 +31,109 @@ class StandardVideoControl(context: Context) : RelativeLayout(context),
     private val seekBar = view.findViewById<SeekBar>(R.id.seek_bar)
     private val nextVideo = view.findViewById<ImageView>(R.id.iv_next)
     private val fullScreen = view.findViewById<ImageView>(R.id.iv_full_screen)
+
+    private val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
     private val loadingProgress = view.findViewById<ProgressBar>(R.id.progress_loading)
 
     private val mHandler = Handler()
-    var videoPlayerView:VideoPlayerView? = null
 
     init {
         addView(view)
         setOnTouchListener(this)
+        seekBar.setOnSeekBarChangeListener(this)
+
+        pausePlayView.setOnClickListener { playPause() }
+        nextVideo.setOnClickListener { mVideoControl.start() }
+        fullScreen.setOnClickListener { mVideoControl.fullScreen() }
     }
 
-    override fun start() {
-        videoPlayerView?.start()
-    }
-
-    override fun pause() {
-        videoPlayerView?.pause()
-    }
-
-    override fun onClick(v: View?) {
-
-    }
-
-    private fun show() {
-        if (!isShowingControl) {
-            rlControl.visibility = View.VISIBLE
-            isShowingControl = true
+    private fun playPause() {
+        if (mVideoControl.isPlaying()) {
+            mVideoControl.pause()
+        } else {
+            mVideoControl.start()
         }
-
-        mHandler.removeCallbacksAndMessages(null)
-        mHandler.postDelayed({ hide() }, 3000)
+        updatePlayPauseButtonState()
     }
 
-    private fun hide() {
+    override fun startPrepare() {
+        isFinishPrepare = false
+        rlControl.visibility = View.INVISIBLE
+        progressBar.visibility = View.INVISIBLE
+        loadingProgress.visibility = View.VISIBLE
+    }
+
+    override fun finishPrepare() {
+        rlControl.visibility = View.INVISIBLE
+        loadingProgress.visibility = View.INVISIBLE
+        progressBar.visibility = View.VISIBLE
+        isFinishPrepare = true
+    }
+
+    override fun onStartTrackingTouch(seekBar: SeekBar?) {
+        Log.d(TAG, "start track !")
+        seekToValue = -1
+    }
+
+    override fun onStopTrackingTouch(seekBar: SeekBar?) {
+        Log.d(TAG, "stop track seek value = $seekToValue")
+        if (seekToValue != -1) {
+            mVideoControl.seekTo(seekToValue)
+        }
+    }
+
+    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+        Log.d(TAG, "progress changed value = $progress fromUser = $fromUser")
+        if (fromUser) {
+            seekToValue = progress
+        }
+    }
+
+    private fun showControl() {
+        if (!isShowingControl && isFinishPrepare) {
+            updatePlayPauseButtonState()
+            rlControl.visibility = View.VISIBLE
+            progressBar.visibility = View.INVISIBLE
+            isShowingControl = true
+            mHandler.postDelayed({ hideControl() }, 3000)
+        }
+    }
+
+    private fun hideControl() {
         if (isShowingControl) {
             rlControl.visibility = View.INVISIBLE
+            progressBar.visibility = View.VISIBLE
             isShowingControl = false
         }
     }
 
-    fun showLoading(){
-        rlControl.visibility = View.INVISIBLE
-        loadingProgress.visibility = View.VISIBLE
-    }
+    override fun updateProgress(currentValue: Int, bufferValue: Int, maxValue: Int) {
+        seekBar.max = maxValue
+        seekBar.progress = currentValue
+        seekBar.secondaryProgress = bufferValue
 
-    fun hideLoading(){
-        rlControl.visibility = View.INVISIBLE
-        loadingProgress.visibility = View.INVISIBLE
+        progressBar.max = maxValue
+        progressBar.progress = currentValue
+        progressBar.secondaryProgress = bufferValue
     }
 
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         if (MotionEvent.ACTION_DOWN == event?.action) {
             if (isShowingControl) {
-                hide()
+                hideControl()
             } else {
-                show()
+                showControl()
             }
         }
         return true
     }
+
+    private fun updatePlayPauseButtonState(){
+        if (mVideoControl.isPlaying()) {
+
+        } else {
+
+        }
+    }
+
 }

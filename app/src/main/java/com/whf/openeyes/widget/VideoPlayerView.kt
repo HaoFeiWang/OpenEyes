@@ -12,6 +12,7 @@ import android.widget.RelativeLayout
 import com.whf.openeyes.data.LOG_TAG
 
 /**
+ * 视频播放界面
  * Created by whf on 2018/7/23.
  */
 
@@ -37,14 +38,14 @@ class VideoPlayerView : RelativeLayout, TextureView.SurfaceTextureListener,
         textureView.surfaceTextureListener = this
     }
 
-    companion object {
-        const val STATE_ERROR = -1
-        const val STATE_IDLE = 0
-        const val STATE_PREPARING = 1
-        const val STATE_PREPARED = 2
-        const val STATE_PLAYING = 3
-        const val STATE_PAUSED = 4
-        const val STATE_COMPLETED = 5
+    private companion object {
+        private const val STATE_ERROR = -1
+        private const val STATE_IDLE = 0
+        private const val STATE_PREPARING = 1
+        private const val STATE_PREPARED = 2
+        private const val STATE_PLAYING = 3
+        private const val STATE_PAUSED = 4
+        private const val STATE_COMPLETED = 5
     }
 
     private var mCurrentState = STATE_IDLE
@@ -62,9 +63,10 @@ class VideoPlayerView : RelativeLayout, TextureView.SurfaceTextureListener,
         return@lazy mediaPlayer
     }
 
-    var mVideoControl: StandardVideoControl? = null
+    var mVideoControl: BaseVideoControl? = null
         set(value) {
             field = value
+            field?.mVideoControl = this
             field?.layoutParams = RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.MATCH_PARENT,
                     RelativeLayout.LayoutParams.MATCH_PARENT
@@ -105,7 +107,8 @@ class VideoPlayerView : RelativeLayout, TextureView.SurfaceTextureListener,
     }
 
     override fun onPrepared(mp: MediaPlayer?) {
-        Log.d(TAG, "media player prepared!")
+        Log.d(TAG, "media player finishPrepare!")
+        mVideoControl?.finishPrepare()
         mCurrentState = STATE_PREPARED
         if (mTargetState == STATE_PLAYING) {
             start()
@@ -119,30 +122,13 @@ class VideoPlayerView : RelativeLayout, TextureView.SurfaceTextureListener,
         return true
     }
 
-    override fun start() {
-        Log.d(TAG, "start video,current state = $mCurrentState,target state = $mTargetState")
-        if (isInPlaybackState()) {
-            mMediaPlayer.start()
-            mVideoControl?.hideLoading()
-        }
-        mTargetState = STATE_PLAYING
-    }
-
-    override fun pause() {
-        if (isInPlaybackState() && mMediaPlayer.isPlaying) {
-            mMediaPlayer.pause()
-            mCurrentState = STATE_PAUSED
-        }
-        mTargetState = STATE_PAUSED
-    }
-
     private fun openVideo() {
         if (mPlayUrl == null || mSurface == null) {
             Log.d(TAG, "open video play url = $mPlayUrl mSurface = $mSurface")
             return
         }
 
-        mVideoControl?.showLoading()
+        mVideoControl?.startPrepare()
         mMediaPlayer.reset()
         mMediaPlayer.setDataSource(mPlayUrl)
         mMediaPlayer.setSurface(mSurface)
@@ -164,4 +150,51 @@ class VideoPlayerView : RelativeLayout, TextureView.SurfaceTextureListener,
             mMediaPlayer.release()
         }
     }
+
+    override fun start() {
+        Log.d(TAG, "start video,current state = $mCurrentState,target state = $mTargetState")
+        if (isInPlaybackState()) {
+            mMediaPlayer.start()
+            mCurrentState = STATE_PLAYING
+            mVideoControl?.updateProgress(mMediaPlayer.currentPosition,
+                    mMediaPlayer.currentPosition, mMediaPlayer.duration)
+        }
+        mTargetState = STATE_PLAYING
+    }
+
+    override fun start(url: String) {
+        mPlayUrl = url
+        start()
+    }
+
+    override fun pause() {
+        if (isInPlaybackState() && mCurrentState == STATE_PLAYING) {
+            mMediaPlayer.pause()
+            mCurrentState = STATE_PAUSED
+        }
+        mTargetState = STATE_PAUSED
+    }
+
+    override fun seekTo(value: Int) {
+        if (isInPlaybackState()) {
+            mMediaPlayer.seekTo(value)
+        }
+    }
+
+    override fun isPlaying(): Boolean {
+        return mCurrentState == STATE_PLAYING
+    }
+
+    override fun fullScreen() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun increaseVoice() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun decreaseVoice() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 }
