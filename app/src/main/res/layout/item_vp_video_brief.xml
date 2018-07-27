@@ -34,6 +34,6 @@
         app:layout_constraintBottom_toBottomOf="@id/tv_vp_video_brief_description"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/tv_vp_video_brief_title"
-        android:src="@mipmap/ic_next"/>
+        android:src="@mipmap/ic_come"/>
 
 </android.support.constraint.ConstraintLayout>

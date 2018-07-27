@@ -1,15 +1,13 @@
 package com.whf.openeyes.widget
 
 import android.content.Context
-import android.os.Handler
 import android.util.Log
 import android.view.*
-import android.widget.ImageView
-import android.widget.ProgressBar
-import android.widget.RelativeLayout
-import android.widget.SeekBar
+import android.widget.*
 import com.whf.openeyes.R
 import com.whf.openeyes.data.LOG_TAG
+import com.whf.openeyes.utils.formatDuration
+import kotlin.math.max
 
 /**
  * Created by whf on 2018/7/23.
@@ -31,11 +29,11 @@ class StandardVideoControl(context: Context) : BaseVideoControl(context),
     private val seekBar = view.findViewById<SeekBar>(R.id.seek_bar)
     private val nextVideo = view.findViewById<ImageView>(R.id.iv_next)
     private val fullScreen = view.findViewById<ImageView>(R.id.iv_full_screen)
+    private val maxDuration = view.findViewById<TextView>(R.id.tv_max_duration)
+    private val currentDuration = view.findViewById<TextView>(R.id.tv_current_duration)
 
     private val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
     private val loadingProgress = view.findViewById<ProgressBar>(R.id.progress_loading)
-
-    private val mHandler = Handler()
 
     init {
         addView(view)
@@ -95,7 +93,7 @@ class StandardVideoControl(context: Context) : BaseVideoControl(context),
             rlControl.visibility = View.VISIBLE
             progressBar.visibility = View.INVISIBLE
             isShowingControl = true
-            mHandler.postDelayed({ hideControl() }, 3000)
+            postDelayed({ hideControl() }, 5000)
         }
     }
 
@@ -107,18 +105,24 @@ class StandardVideoControl(context: Context) : BaseVideoControl(context),
         }
     }
 
-    override fun updateProgress(currentValue: Int, bufferValue: Int, maxValue: Int) {
-        seekBar.max = maxValue
+    override fun updateMaxProgress(maxProgress: Int) {
+        seekBar.max = maxProgress
+        progressBar.max = maxProgress
+        maxDuration.text = formatDuration(maxProgress/1000)
+    }
+
+    override fun updateCurrentProgress(currentValue: Int, bufferValue: Int) {
         seekBar.progress = currentValue
         seekBar.secondaryProgress = bufferValue
 
-        progressBar.max = maxValue
         progressBar.progress = currentValue
         progressBar.secondaryProgress = bufferValue
+
+        currentDuration.text = formatDuration(currentValue/1000)
     }
 
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-        if (MotionEvent.ACTION_DOWN == event?.action) {
+        if (MotionEvent.ACTION_UP == event?.action) {
             if (isShowingControl) {
                 hideControl()
             } else {
@@ -128,11 +132,11 @@ class StandardVideoControl(context: Context) : BaseVideoControl(context),
         return true
     }
 
-    private fun updatePlayPauseButtonState(){
+    private fun updatePlayPauseButtonState() {
         if (mVideoControl.isPlaying()) {
-
+            pausePlayView.setImageResource(R.mipmap.ic_pause)
         } else {
-
+            pausePlayView.setImageResource(R.mipmap.ic_play)
         }
     }
 

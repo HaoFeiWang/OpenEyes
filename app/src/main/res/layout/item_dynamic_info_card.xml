@@ -39,7 +39,7 @@
         app:layout_constraintBottom_toBottomOf="@id/iv_dynamic_info_head"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/iv_dynamic_info_head"
-        android:src="@mipmap/ic_next"/>
+        android:src="@mipmap/ic_come"/>
 
 
     <TextView

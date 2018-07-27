@@ -7,5 +7,6 @@ package com.whf.openeyes.widget
 interface IVideoStateCallback {
     fun finishPrepare()
     fun startPrepare()
-    fun updateProgress(currentValue: Int, bufferValue: Int, maxValue: Int)
+    fun updateMaxProgress(maxProgress: Int)
+    fun updateCurrentProgress(currentValue: Int, bufferValue: Int)
 }

@@ -7,7 +7,6 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.Surface
 import android.view.TextureView
-import android.view.View
 import android.widget.RelativeLayout
 import com.whf.openeyes.data.LOG_TAG
 
@@ -19,7 +18,7 @@ import com.whf.openeyes.data.LOG_TAG
 class VideoPlayerView : RelativeLayout, TextureView.SurfaceTextureListener,
         MediaPlayer.OnPreparedListener, MediaPlayer.OnErrorListener,
         IVideoControl, MediaPlayer.OnVideoSizeChangedListener,
-        MediaPlayer.OnCompletionListener {
+        MediaPlayer.OnCompletionListener, MediaPlayer.OnBufferingUpdateListener {
 
     private val TAG = "$LOG_TAG${VideoPlayerView::class.java.simpleName}"
 
@@ -53,6 +52,20 @@ class VideoPlayerView : RelativeLayout, TextureView.SurfaceTextureListener,
 
     private var mSurface: Surface? = null
     private var isInitMediaPlayer = false
+
+    private var mCurrentBufferProgress = 0
+
+    private val mProgressRunnable: Runnable by lazy {
+        Runnable {
+            if (mMediaPlayer.isPlaying) {
+                mVideoControl?.updateCurrentProgress(
+                        mMediaPlayer.currentPosition, mCurrentBufferProgress
+                )
+                postDelayed(mProgressRunnable, 1000)
+            }
+        }
+    }
+
     private val mMediaPlayer: MediaPlayer by lazy {
         isInitMediaPlayer = true
         val mediaPlayer = MediaPlayer()
@@ -60,6 +73,7 @@ class VideoPlayerView : RelativeLayout, TextureView.SurfaceTextureListener,
         mediaPlayer.setOnErrorListener(this)
         mediaPlayer.setOnCompletionListener(this)
         mediaPlayer.setOnVideoSizeChangedListener(this)
+        mediaPlayer.setOnBufferingUpdateListener(this)
         return@lazy mediaPlayer
     }
 
@@ -81,6 +95,11 @@ class VideoPlayerView : RelativeLayout, TextureView.SurfaceTextureListener,
 
 
     override fun onVideoSizeChanged(mp: MediaPlayer?, width: Int, height: Int) {
+    }
+
+    override fun onBufferingUpdate(mp: MediaPlayer?, percent: Int) {
+        Log.d(TAG, "buffer update $percent")
+        mCurrentBufferProgress = (percent /(100.0f) * (mMediaPlayer.duration)).toInt()
     }
 
     override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture?, width: Int, height: Int) {
@@ -156,8 +175,8 @@ class VideoPlayerView : RelativeLayout, TextureView.SurfaceTextureListener,
         if (isInPlaybackState()) {
             mMediaPlayer.start()
             mCurrentState = STATE_PLAYING
-            mVideoControl?.updateProgress(mMediaPlayer.currentPosition,
-                    mMediaPlayer.currentPosition, mMediaPlayer.duration)
+            mVideoControl?.updateMaxProgress(mMediaPlayer.duration)
+            post(mProgressRunnable)
         }
         mTargetState = STATE_PLAYING
     }
