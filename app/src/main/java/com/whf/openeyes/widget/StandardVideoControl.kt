@@ -7,7 +7,6 @@ import android.widget.*
 import com.whf.openeyes.R
 import com.whf.openeyes.data.LOG_TAG
 import com.whf.openeyes.utils.formatDuration
-import kotlin.math.max
 
 /**
  * Created by whf on 2018/7/23.
@@ -34,6 +33,10 @@ class StandardVideoControl(context: Context) : BaseVideoControl(context),
 
     private val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
     private val loadingProgress = view.findViewById<ProgressBar>(R.id.progress_loading)
+
+    private val mRunnable = {
+        hideControl()
+    }
 
     init {
         addView(view)
@@ -93,12 +96,13 @@ class StandardVideoControl(context: Context) : BaseVideoControl(context),
             rlControl.visibility = View.VISIBLE
             progressBar.visibility = View.INVISIBLE
             isShowingControl = true
-            postDelayed({ hideControl() }, 5000)
+            postDelayed(mRunnable, 5000)
         }
     }
 
     private fun hideControl() {
         if (isShowingControl) {
+            removeCallbacks(mRunnable)
             rlControl.visibility = View.INVISIBLE
             progressBar.visibility = View.VISIBLE
             isShowingControl = false

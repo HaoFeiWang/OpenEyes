@@ -1,15 +1,21 @@
 package com.whf.openeyes.widget
 
+import android.animation.Animator
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.SurfaceTexture
 import android.media.MediaPlayer
+import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
+import android.util.DisplayMetrics
 import android.util.Log
-import android.view.Surface
-import android.view.TextureView
+import android.view.*
 import android.widget.RelativeLayout
 import com.whf.openeyes.data.LOG_TAG
 
+@SuppressLint("ObjectAnimatorBinding")
 /**
  * 视频播放界面
  * Created by whf on 2018/7/23.
@@ -51,9 +57,80 @@ class VideoPlayerView : RelativeLayout, TextureView.SurfaceTextureListener,
     private var mTargetState = STATE_IDLE
 
     private var mSurface: Surface? = null
+    private var isFullScreen: Boolean = false
     private var isInitMediaPlayer = false
-
     private var mCurrentBufferProgress = 0
+
+    private var mScreenWidth = 0
+    private var mScreenHeight = 0
+    private var mScaleXValue = 0f
+    private var mScaleYValue = 0f
+
+    private val animListener : Animator.AnimatorListener by lazy {
+        object : Animator.AnimatorListener {
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
+                mVideoControl?.let {
+                    this@VideoPlayerView.removeView(mVideoControl)
+                }
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                mVideoControl?.let {
+                    this@VideoPlayerView.addView(mVideoControl)
+                }
+                rootView.invalidate()
+            }
+
+        }
+    }
+
+    private val mFullScreenAnimatorSet: AnimatorSet by lazy {
+        val root = rootView
+        root.pivotX = 0f
+        root.pivotY = 0f
+        val rotation = ObjectAnimator.ofFloat(root, "rotation", 0f, 90f)
+
+        initScreenSize()
+        initScaleValue()
+
+        val scaleX = ObjectAnimator.ofFloat(root, "scaleX", 1f, mScaleXValue)
+        val scaleY = ObjectAnimator.ofFloat(root, "scaleY", 1f, mScaleYValue)
+        val translationX = ObjectAnimator.ofFloat(root, "translationX", 0f, mScreenWidth.toFloat())
+
+        scaleX.addListener(animListener)
+
+        val animatorSet = AnimatorSet()
+        animatorSet.play(rotation).with(scaleX).with(scaleY).with(translationX)
+
+        return@lazy animatorSet
+    }
+
+    private val mResetAnimatorSet: AnimatorSet by lazy {
+        val root = rootView
+        root.pivotX = 0f
+        root.pivotY = 0f
+        val rotation = ObjectAnimator.ofFloat(root, "rotation", -90f, 0f)
+
+        initScreenSize()
+        initScaleValue()
+
+        val scaleX = ObjectAnimator.ofFloat(root, "scaleX", mScaleXValue, 1f)
+        val scaleY = ObjectAnimator.ofFloat(root, "scaleY", mScaleYValue, 1f)
+        val translationX = ObjectAnimator.ofFloat(root, "translationX", mScreenWidth.toFloat(), 0f)
+
+        scaleX.addListener(animListener)
+
+        val animatorSet = AnimatorSet()
+        animatorSet.play(rotation).with(scaleX).with(scaleY).with(translationX)
+
+        return@lazy animatorSet
+    }
 
     private val mProgressRunnable: Runnable by lazy {
         Runnable {
@@ -87,6 +164,7 @@ class VideoPlayerView : RelativeLayout, TextureView.SurfaceTextureListener,
             )
             addView(field)
         }
+
     var mPlayUrl: String? = null
         set(value) {
             field = value
@@ -99,7 +177,7 @@ class VideoPlayerView : RelativeLayout, TextureView.SurfaceTextureListener,
 
     override fun onBufferingUpdate(mp: MediaPlayer?, percent: Int) {
         Log.d(TAG, "buffer update $percent")
-        mCurrentBufferProgress = (percent /(100.0f) * (mMediaPlayer.duration)).toInt()
+        mCurrentBufferProgress = (percent / (100.0f) * (mMediaPlayer.duration)).toInt()
     }
 
     override fun onSurfaceTextureSizeChanged(surface: SurfaceTexture?, width: Int, height: Int) {
@@ -122,6 +200,7 @@ class VideoPlayerView : RelativeLayout, TextureView.SurfaceTextureListener,
     }
 
     override fun onCompletion(mp: MediaPlayer?) {
+        Log.e(TAG, "play video completion!")
         mCurrentState = STATE_COMPLETED
     }
 
@@ -135,6 +214,7 @@ class VideoPlayerView : RelativeLayout, TextureView.SurfaceTextureListener,
     }
 
     override fun onError(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
+        Log.e(TAG, "play video error!")
         mCurrentState = STATE_ERROR
 
         //TODO 返回值是什么含义
@@ -164,6 +244,7 @@ class VideoPlayerView : RelativeLayout, TextureView.SurfaceTextureListener,
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
+        removeCallbacks(mProgressRunnable)
         if (isInitMediaPlayer) {
             mMediaPlayer.reset()
             mMediaPlayer.release()
@@ -201,11 +282,20 @@ class VideoPlayerView : RelativeLayout, TextureView.SurfaceTextureListener,
     }
 
     override fun isPlaying(): Boolean {
+        Log.d(TAG, "current state = $mCurrentState")
         return mCurrentState == STATE_PLAYING
     }
 
     override fun fullScreen() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        if (isFullScreen) {
+            isFullScreen = false
+            setSystemUiVisibility(context, true)
+            mResetAnimatorSet.start()
+        } else {
+            isFullScreen = true
+            mFullScreenAnimatorSet.start()
+            setSystemUiVisibility(context, false)
+        }
     }
 
     override fun increaseVoice() {
@@ -214,6 +304,43 @@ class VideoPlayerView : RelativeLayout, TextureView.SurfaceTextureListener,
 
     override fun decreaseVoice() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+
+    private fun setSystemUiVisibility(context: Context, show: Boolean) {
+        if (context !is AppCompatActivity) {
+            throw IllegalArgumentException("context must AppCompactActivity")
+        }
+
+        if (show) {
+            Log.d(TAG, "show status bar!")
+            context.supportActionBar?.show()
+            context.window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        } else {
+            Log.d(TAG, "hide status bar!")
+            context.supportActionBar?.hide()
+            context.window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
+    }
+
+    private fun initScreenSize() {
+        if (mScreenWidth != 0 && mScreenHeight != 0) {
+            return
+        }
+
+        val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        mScreenWidth = displayMetrics.widthPixels
+        mScreenHeight = displayMetrics.heightPixels
+    }
+
+    private fun initScaleValue() {
+        if (mScaleXValue != 0f && mScaleYValue != 0f) {
+            return
+        }
+        mScaleXValue = mScreenHeight.toFloat() / width
+        mScaleYValue = mScreenWidth.toFloat() / height
     }
 
 }
